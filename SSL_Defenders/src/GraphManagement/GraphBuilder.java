@@ -6,13 +6,16 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.json.JSONObject;
 
+import java.util.Vector;
+
 public class GraphBuilder {
 
-    private static Graph<Vertex, DefaultEdge> graph;
+    private static Graph<Vertex, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
 
     public static Graph buildGraph(JSONObject jsonSource)
     {
-        graph = new SimpleGraph<>(DefaultEdge.class);
+
+        Vector<Vertex> vertexSet = new Vector<>();
 
 
 
