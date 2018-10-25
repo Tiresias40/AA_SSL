@@ -100,5 +100,4 @@ public class InputJSON {
 	public void setPosStep(double posStep) {
 		this.posStep = posStep;
 	}
-	
 }

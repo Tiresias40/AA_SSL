@@ -6,6 +6,7 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.json.JSONObject;
 
+import java.awt.geom.Point2D;
 import java.util.Vector;
 
 public class GraphBuilder {
@@ -26,10 +27,36 @@ public class GraphBuilder {
         for(;xRunner < xBorder; xRunner += input.getPosStep())
         {
             for(;yRunner < yBorder; yRunner += input.getPosStep())
-            {
                 vertexSet.add(new Vertex(xRunner, yRunner));
+
+        }
+
+        for(Point2D opponent : input.getOpponents())
+        {
+            Vertex v = new Vertex(opponent);
+            if(vertexSet.contains(v))
+            {
+                vertexSet.get(vertexSet.indexOf(v)).type = VertexType.OPPONENT;
+            }
+            else
+            {
+                v.type = VertexType.OPPONENT;
+                vertexSet.add(v);
             }
         }
+
+
+        for(Vertex v : vertexSet)
+            graph.addVertex(v);
+
+        for(Vertex v : graph.vertexSet())
+            for(Vertex v2 : graph.vertexSet())
+            {
+                if(v.equals(v2))
+                    continue;
+                if(v.isDefender() && v2.isDefender())
+                    graph.addEdge(v, v2);
+            }
 
         return graph;
     }
