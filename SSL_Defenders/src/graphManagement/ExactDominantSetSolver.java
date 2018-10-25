@@ -1,4 +1,4 @@
-package GraphManagement;
+package graphManagement;
 
 import org.jgrapht.Graph;
 

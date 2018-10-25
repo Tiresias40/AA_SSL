@@ -1,7 +1,13 @@
 package IOManager;
 
 import org.json.JSONObject;
-import java.io.FileReader;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import graphManagement.Goal;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.awt.geom.Point2D;
 
 public class InputJSON {
@@ -14,7 +20,6 @@ public class InputJSON {
 	
 	public InputJSON (String filePath) {
 		JSONObject jObj = getJsonFromFile(filePath);
-		
 		
 	}
 	

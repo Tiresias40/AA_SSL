@@ -1,4 +1,4 @@
-package GraphManagement;
+package graphManagement;
 
 import java.awt.geom.Point2D;
 
