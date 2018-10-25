@@ -9,6 +9,17 @@ public class Vertex {
     public Vertex(double x, double y)
     {
         location = new Point2D.Double(x, y);
-        type = VertexType.NONE;
+        type = VertexType.DEFENDER;
     }
+
+    public Vertex(Point2D p)
+    {
+        this(p.getX(), p.getY());
+    }
+
+    public boolean isDefender()
+    {
+        return type == VertexType.DEFENDER;
+    }
+
 }
