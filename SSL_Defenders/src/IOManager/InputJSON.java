@@ -39,5 +39,28 @@ public class InputJSON {
         
         return jObj;
     }
-	
+
+    public ArrayList<Point2D> getFieldLimits() {
+        return fieldLimits;
+    }
+
+    public ArrayList<Goal> getGoals() {
+        return goals;
+    }
+
+    public ArrayList<Point2D> getOpponents() {
+        return opponents;
+    }
+
+    public double getRobotRadius() {
+        return robotRadius;
+    }
+
+    public double getThetaStep() {
+        return thetaStep;
+    }
+
+    public double getPosStep() {
+        return posStep;
+    }
 }
