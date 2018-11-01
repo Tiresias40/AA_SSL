@@ -3,15 +3,11 @@ package IOManager;
 import graphManagement.Goal;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.geom.Point2D;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class InputJSON {
 	private ArrayList<Point2D> fieldLimits;
@@ -42,11 +38,7 @@ public class InputJSON {
 		JSONObject jObj = null;
         try {     
             jObj = (JSONObject) parser.parse(new FileReader(filePath));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         
