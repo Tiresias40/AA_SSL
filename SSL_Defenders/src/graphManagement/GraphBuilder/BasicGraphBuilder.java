@@ -85,12 +85,12 @@ public class BasicGraphBuilder {
 
     private static void createOpponentVertices()
     {
-        for(Point2D opponent : inputValues.getOpponents()) {
-            Vertex v = new Vertex(opponent);
+        for(Point2D opponentPos : inputValues.getOpponents()) {
+            Vertex v = new Vertex(opponentPos);
             if (defendersVertexSet.contains(v))
                 defendersVertexSet.remove(v);
             else {
-                v.type = VertexType.OPPONENT;
+                v.setOpponent();
                 opponentsVertexSet.add(v);
             }
         }

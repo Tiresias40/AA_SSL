@@ -21,5 +21,9 @@ public class Vertex {
     {
         return type == VertexType.DEFENDER;
     }
+    public boolean isOpponent() { return type == VertexType.OPPONENT;}
+
+    public void setDefender() { type = VertexType.DEFENDER; }
+    public void setOpponent() { type = VertexType.OPPONENT; }
 
 }

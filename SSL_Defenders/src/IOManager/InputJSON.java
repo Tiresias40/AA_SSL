@@ -44,7 +44,10 @@ public class InputJSON {
         
         return jObj;
     }
-	
+
+    public int opponentNumber() { return opponents.size(); }
+
+
 	public ArrayList<Point2D> getFieldLimits() {
 		return fieldLimits;
 	}
