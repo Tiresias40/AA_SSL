@@ -11,9 +11,11 @@ public class ExactDominantSetSolver {
 
     public Vector<Vertex> dominatingSet = new Vector<>();
     private Graph g;
+    private Vector<Vertex> verticesSet = new Vector<>();
 
     public ExactDominantSetSolver(Graph g){
         this.g = g;
+        verticesSet.addAll(g.vertexSet());
     }
 
     public boolean hasDominatingSet(int maxSize)
@@ -38,8 +40,7 @@ public class ExactDominantSetSolver {
         }
 
 
-        Vector<Vertex> verticesSet = new Vector<>();
-        verticesSet.addAll(g.vertexSet());
+
 
         Vector<Vertex> currentSet = new Vector<>();
 
@@ -74,6 +75,26 @@ public class ExactDominantSetSolver {
                     continue;
                 currentlyDominated.add(tmpV);
             }
+
+            if(!currentlyDominated.contains(chosen))
+                currentlyDominated.add(chosen);
+        }
+
+        if(currentlyDominated.size() == g.vertexSet().size())
+        {
+            dominatingSet.addAll(currentSet);
+            return true;
+        }
+
+
+        for(Vertex v : verticesSet)
+        {
+            if(currentSet.contains(v))
+                continue;
+            currentSet.add(v);
+            if(hasDominatingSetRecursive(size-1, currentSet))
+                return true;
+            currentSet.remove(v);
         }
 
         return false;
@@ -81,6 +102,6 @@ public class ExactDominantSetSolver {
 
     private void trivialSet(int size)
     {
-
+        //ajouter un voisin de chaque opponent dans le dominatingSet
     }
 }
