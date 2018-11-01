@@ -22,28 +22,8 @@ public class BasicGraphBuilder {
     public static Graph buildBasicGraph(InputJSON input)
     {
         inputValues = input;
-        double xRunner = input.getFieldLimits().get(0).getX();
-        double xBorder = input.getFieldLimits().get(1).getX();
 
-        double yRunner = input.getFieldLimits().get(0).getY();
-        double yBorder = input.getFieldLimits().get(1).getY();
-
-        for(;xRunner < xBorder; xRunner += input.getPosStep()) {
-            for (; yRunner < yBorder; yRunner += input.getPosStep())
-                defendersVertexSet.add(new Vertex(xRunner, yRunner));
-        }
-
-        for(Point2D opponent : input.getOpponents()) {
-            Vertex v = new Vertex(opponent);
-            if (defendersVertexSet.contains(v)) {
-                defendersVertexSet.remove(v);
-            } else {
-                v.type = VertexType.OPPONENT;
-                opponentsVertexSet.add(v);
-            }
-        }
-
-
+        createVertices();
         setGraphVertices();
         setGraphEdges();
 
@@ -80,6 +60,40 @@ public class BasicGraphBuilder {
                 if(intersect(opponent, defender))
                     graph.addEdge(opponent, defender);
     }
+
+
+    private static void createVertices()
+    {
+        createDefendersVertices();
+        createOpponentVertices();
+    }
+
+    private static void createDefendersVertices()
+    {
+        double xRunner = inputValues.getFieldLimits().get(0).getX();
+        double xBorder = inputValues.getFieldLimits().get(1).getX();
+
+        double yRunner = inputValues.getFieldLimits().get(0).getY();
+        double yBorder = inputValues.getFieldLimits().get(1).getY();
+
+        for(;xRunner < xBorder; xRunner += inputValues.getPosStep())
+            for (; yRunner < yBorder; yRunner += inputValues.getPosStep())
+                defendersVertexSet.add(new Vertex(xRunner, yRunner));
+    }
+
+    private static void createOpponentVertices()
+    {
+        for(Point2D opponent : inputValues.getOpponents()) {
+            Vertex v = new Vertex(opponent);
+            if (defendersVertexSet.contains(v))
+                defendersVertexSet.remove(v);
+            else {
+                v.type = VertexType.OPPONENT;
+                opponentsVertexSet.add(v);
+            }
+        }
+    }
+
 
     private static boolean intersect(Vertex opponent, Vertex defender)
     {
