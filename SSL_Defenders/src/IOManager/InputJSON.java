@@ -10,14 +10,40 @@ import java.awt.geom.Point2D;
 import java.io.FileReader;
 
 public class InputJSON {
+
+    public static InputJSON singleton = null;
+
 	private ArrayList<Point2D> fieldLimits;
 	private ArrayList<Goal> goals;
 	private ArrayList<Point2D> opponents;
 	private double robotRadius;
 	private double thetaStep;
 	private double posStep;
-	
-	public InputJSON (String filePath) {
+
+	public static InputJSON getInstance(String filePath)
+    {
+        if(singleton != null)
+            return singleton;
+
+        singleton = new InputJSON(filePath);
+        return singleton;
+    }
+
+    public static InputJSON getInstance() throws RuntimeException
+    {
+        if(singleton != null)
+            return singleton;
+
+        throw new RuntimeException("InputJson not instantiated yet");
+    }
+
+    public static InputJSON renewInstance(String filePath)
+    {
+        singleton = null;
+        return getInstance(filePath);
+    }
+
+	private InputJSON (String filePath) {
 		JSONObject jObj = getJsonFromFile(filePath);
 		
 		fieldLimits = new ArrayList<Point2D>();

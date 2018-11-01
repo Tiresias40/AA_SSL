@@ -2,7 +2,6 @@ package graphManagement.GraphBuilder;
 
 import IOManager.InputJSON;
 import graphManagement.Vertex;
-import graphManagement.VertexType;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
