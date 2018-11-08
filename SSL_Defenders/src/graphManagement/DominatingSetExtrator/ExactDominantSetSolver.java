@@ -2,11 +2,9 @@ package graphManagement.DominatingSetExtrator;
 
 import IOManager.InputJSON;
 import graphManagement.Edge;
+import graphManagement.Graph;
 import graphManagement.Vertex;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class ExactDominantSetSolver {
