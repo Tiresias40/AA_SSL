@@ -3,105 +3,89 @@ package graphManagement.DominatingSetExtrator;
 import IOManager.InputJSON;
 import graphManagement.Vertex;
 import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class ExactDominantSetSolver {
 
-    public Vector<Vertex> dominatingSet = new Vector<>();
-    private Graph g;
-    private Vector<Vertex> verticesSet = new Vector<>();
+	public Vector<Vertex> dominatingSet = new Vector<>();
+	private Graph<Vertex, DefaultEdge> g;
+	private Vector<Vertex> verticesSet = new Vector<>();
 
-    public ExactDominantSetSolver(Graph g){
-        this.g = g;
-        verticesSet.addAll(g.vertexSet());
-    }
+	public ExactDominantSetSolver(Graph<Vertex, DefaultEdge> g) {
+		this.g = g;
+		verticesSet.addAll(g.vertexSet());
+	}
 
-    public boolean hasDominatingSet(int maxSize)
-    {
-        if(maxSize <= 0)
-            return false;
+	public boolean hasDominatingSet(int maxSize) {
+		if (maxSize <= 0)
+			return false;
 
-        InputJSON input = null;
-        try {
-            input = InputJSON.getInstance();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            System.exit(-1);
-        }
+		InputJSON input = null;
+		try {
+			input = InputJSON.getInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 
-        if(maxSize >= input.opponentNumber())
-        {
-            trivialSet(maxSize);
-            return true;
-        }
+		if (maxSize >= input.opponentNumber()) {
+			trivialSet(maxSize);
+			return true;
+		}
 
+		Vector<Vertex> currentSet = new Vector<>();
 
+		for (Vertex v : verticesSet) {
+			if (v.isOpponent())
+				continue;
 
+			currentSet.add(v);
+			if (hasDominatingSetRecursive(maxSize - 1, currentSet))
+				return true;
+			currentSet.remove(v);
+		}
 
-        Vector<Vertex> currentSet = new Vector<>();
+		return false;
+	}
 
-        for(Vertex v : verticesSet)
-        {
-            if(v.isOpponent())
-                continue;
+	private boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet) {
+		if (size <= 0)
+			return false;
 
-            currentSet.add(v);
-            if(hasDominatingSetRecursive(maxSize-1, currentSet))
-                return true;
-            currentSet.remove(v);
-        }
+		Vector<Vertex> currentlyDominated = new Vector<>();
+		for (Vertex chosen : currentSet) {
+			Vector<Vertex> tmp = new Vector<>();
+			tmp.addAll(g.edgesOf(chosen));
 
-        return false;
-    }
+			for (Vertex tmpV : tmp) {
+				if (!currentlyDominated.contains(tmpV))
+					currentlyDominated.add(tmpV);
+			}
 
-    private boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet)
-    {
-        if(size <= 0)
-            return false;
+			if (!currentlyDominated.contains(chosen))
+				currentlyDominated.add(chosen);
+		}
 
-        Vector<Vertex> currentlyDominated = new Vector<>();
-        for(Vertex chosen : currentSet)
-        {
-            Vector<Vertex> tmp = new Vector<>();
-            tmp.addAll(g.edgesOf(chosen));
+		if (currentlyDominated.size() == g.vertexSet().size()) {
+			dominatingSet.addAll(currentSet);
+			return true;
+		}
 
-            for(Vertex tmpV : tmp)
-            {
-                if(currentlyDominated.contains(tmpV))
-                    continue;
-                currentlyDominated.add(tmpV);
-            }
+		for (Vertex v : verticesSet) {
+			if (currentSet.contains(v))
+				continue;
+			currentSet.add(v);
+			if (hasDominatingSetRecursive(size - 1, currentSet))
+				return true;
+			currentSet.remove(v);
+		}
 
-            if(!currentlyDominated.contains(chosen))
-                currentlyDominated.add(chosen);
-        }
+		return false;
+	}
 
-        if(currentlyDominated.size() == g.vertexSet().size())
-        {
-            dominatingSet.addAll(currentSet);
-            return true;
-        }
-
-
-        for(Vertex v : verticesSet)
-        {
-            if(currentSet.contains(v))
-                continue;
-            currentSet.add(v);
-            if(hasDominatingSetRecursive(size-1, currentSet))
-                return true;
-            currentSet.remove(v);
-        }
-
-        return false;
-    }
-
-    private void trivialSet(int size)
-    {
-        //ajouter un voisin de chaque opponent dans le dominatingSet
-    }
+	private void trivialSet(int size) {
+		// ajouter un voisin de chaque opponent dans le dominatingSet
+	}
 }
