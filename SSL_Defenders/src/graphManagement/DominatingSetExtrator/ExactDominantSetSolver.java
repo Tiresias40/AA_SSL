@@ -2,11 +2,9 @@ package graphManagement.DominatingSetExtrator;
 
 import IOManager.InputJSON;
 import graphManagement.Edge;
+import graphManagement.Graph;
 import graphManagement.Vertex;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class ExactDominantSetSolver {
@@ -14,50 +12,23 @@ public class ExactDominantSetSolver {
     public Vector<Vertex> dominatingSet = new Vector<>();
     private Graph g;
     private Vector<Vertex> verticesSet = new Vector<>();
+    private InputJSON input = null;
+
+    private boolean trivialReturnValue;
 
     public ExactDominantSetSolver(Graph g){
         this.g = g;
-        verticesSet.addAll(g.vertexSet());
+        addAllVerticesToVertexSet(g);
     }
 
     public boolean hasDominatingSet(int maxSize)
     {
-        if(maxSize <= 0)
-            return false;
-
-        InputJSON input = null;
-        try {
-            input = InputJSON.getInstance();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            System.exit(-1);
-        }
-
-        if(maxSize >= input.opponentNumber())
-        {
-            trivialSet(maxSize);
-            return true;
-        }
-
-
-
+        getJSONInstanceOrDie();
+        if(checkTrivialCases(maxSize))
+            return trivialReturnValue;
 
         Vector<Vertex> currentSet = new Vector<>();
-
-        for(Vertex v : verticesSet)
-        {
-            if(v.isOpponent())
-                continue;
-
-            currentSet.add(v);
-            if(hasDominatingSetRecursive(maxSize-1, currentSet))
-                return true;
-            currentSet.remove(v);
-        }
-
-        return false;
+        return hasDominatingSetRecursive(maxSize, currentSet);
     }
 
     private boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet)
@@ -95,7 +66,7 @@ public class ExactDominantSetSolver {
 
         for(Vertex v : verticesSet)
         {
-            if(currentSet.contains(v))
+            if(currentSet.contains(v) || v.isOpponent())
                 continue;
             currentSet.add(v);
             if(hasDominatingSetRecursive(size-1, currentSet))
@@ -108,6 +79,41 @@ public class ExactDominantSetSolver {
 
     private void trivialSet(int size)
     {
-        //ajouter un voisin de chaque opponent dans le dominatingSet
+        Vector<Vertex> opponents = g.getOpponentVertices();
+    }
+
+    private void getJSONInstanceOrDie()
+    {
+        try {
+            input = InputJSON.getInstance();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    private boolean checkTrivialCases(int size) {
+        boolean existTrivialCase = false;
+        if (size <= 0) {
+            existTrivialCase = true;
+            trivialReturnValue = false;
+        }
+        else if(size >= input.opponentNumber())
+        {
+            existTrivialCase = true;
+            trivialReturnValue = true;
+
+            trivialSet(size);
+        }
+        return  existTrivialCase;
+    }
+
+
+    private void addAllVerticesToVertexSet(Graph g)
+    {
+        for(Object vertex : g.vertexSet())
+            verticesSet.add((Vertex) vertex);
     }
 }

@@ -2,8 +2,8 @@ package graphManagement.GraphBuilder;
 
 import IOManager.InputJSON;
 import graphManagement.Edge;
+import graphManagement.Graph;
 import graphManagement.Vertex;
-import org.jgrapht.Graph;
 import org.jgrapht.graph.SimpleGraph;
 
 import java.awt.geom.Point2D;
@@ -11,7 +11,7 @@ import java.util.Vector;
 
 public class BasicGraphBuilder {
 
-    private static Graph<Vertex, Edge> graph = new SimpleGraph<Vertex, Edge>(Edge.class);
+    private static Graph<Vertex, Edge> graph = new Graph<>(Edge.class);
 
     private static Vector<Vertex> defendersVertexSet = new Vector<>();
     private static Vector<Vertex> opponentsVertexSet = new Vector<>();
