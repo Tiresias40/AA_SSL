@@ -1,9 +1,9 @@
 package graphManagement.GraphBuilder;
 
 import IOManager.InputJSON;
+import graphManagement.Edge;
 import graphManagement.Vertex;
 import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
 import java.awt.geom.Point2D;
@@ -11,7 +11,7 @@ import java.util.Vector;
 
 public class BasicGraphBuilder {
 
-    private static Graph<Vertex, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+    private static Graph<Vertex, Edge> graph = new SimpleGraph<Vertex, Edge>(Edge.class);
 
     private static Vector<Vertex> defendersVertexSet = new Vector<>();
     private static Vector<Vertex> opponentsVertexSet = new Vector<>();
@@ -88,16 +88,15 @@ public class BasicGraphBuilder {
             Vertex v = new Vertex(opponentPos);
             if (defendersVertexSet.contains(v))
                 defendersVertexSet.remove(v);
-            else {
-                v.setOpponent();
-                opponentsVertexSet.add(v);
-            }
+            v.setOpponent();
+            opponentsVertexSet.add(v);
         }
     }
 
 
     private static boolean intersect(Vertex opponent, Vertex defender)
     {
+
         return false;
     }
 

@@ -1,8 +1,10 @@
 package graphManagement.DominatingSetExtrator;
 
 import IOManager.InputJSON;
+import graphManagement.Edge;
 import graphManagement.Vertex;
 import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -67,7 +69,11 @@ public class ExactDominantSetSolver {
         for(Vertex chosen : currentSet)
         {
             Vector<Vertex> tmp = new Vector<>();
-            tmp.addAll(g.edgesOf(chosen));
+
+            for(Object e : g.edgesOf(chosen))
+            {
+                tmp.add((Vertex) ((Edge)e).getTarget());
+            }
 
             for(Vertex tmpV : tmp)
             {

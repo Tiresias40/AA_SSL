@@ -1,6 +1,7 @@
 package graphManagement;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 public class Vertex {
     public Point2D.Double location;

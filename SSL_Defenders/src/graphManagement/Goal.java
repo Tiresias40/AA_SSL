@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Goal {
 	private ArrayList<Point2D> limits;
 	private Point2D direction;
+	private ArrayList<Point2D> linesToOpponents;
 	
 	public Goal (ArrayList<Point2D> limits, Point2D direction) {
 		for (Point2D lim : limits) {
