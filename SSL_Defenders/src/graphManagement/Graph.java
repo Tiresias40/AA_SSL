@@ -11,6 +11,8 @@ public class Graph<V,E> extends SimpleGraph {
 
     public Graph(Class edgeClass) {
         super(edgeClass);
+        opponentsVertices = new Vector<>();
+        defendersVertices = new Vector<>();
     }
 
     @Override

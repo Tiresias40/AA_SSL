@@ -4,7 +4,6 @@ import IOManager.InputJSON;
 import graphManagement.Edge;
 import graphManagement.Graph;
 import graphManagement.Vertex;
-import org.jgrapht.graph.SimpleGraph;
 
 import java.awt.Point;
 import java.util.Vector;

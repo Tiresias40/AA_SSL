@@ -15,6 +15,12 @@ public class Vertex {
 		this(p.getX(), p.getY());
 	}
 
+	public Vertex(Point p, VertexType type)
+    {
+        this(p);
+        this.type = type;
+    }
+
 	public boolean isDefender() {
 		return type == VertexType.DEFENDER;
 	}

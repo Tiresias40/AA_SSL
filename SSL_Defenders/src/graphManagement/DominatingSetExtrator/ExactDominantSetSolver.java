@@ -72,9 +72,13 @@ public class ExactDominantSetSolver {
 		return false;
 	}
 
-    private void trivialSet(int size)
+    private void trivialSet()
     {
         Vector<Vertex> opponents = g.getOpponentVertices();
+        for(Vertex opponent : opponents)
+        {
+
+        }
     }
 
     private void getJSONInstanceOrDie()
