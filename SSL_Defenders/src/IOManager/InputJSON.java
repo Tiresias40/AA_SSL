@@ -45,6 +45,8 @@ public class InputJSON {
 
 	private InputJSON (String filePath) {
 		JSONObject jObj = getJsonFromFile(filePath);
+
+		System.out.println(jObj);
 		
 		fieldLimits = new ArrayList<Point2D>();
 		JSONArray fields = jObj.getJSONArray("fields_limits");

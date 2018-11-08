@@ -13,4 +13,12 @@ public class Goal {
 		}
 		this.direction = direction;
 	}
+
+	public ArrayList getGoalLimits() {
+		return limits;
+	}
+
+	public Point2D getDirection() {
+	    return direction;
+    }
 }
