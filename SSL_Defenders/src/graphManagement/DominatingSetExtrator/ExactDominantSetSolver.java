@@ -2,9 +2,11 @@ package graphManagement.DominatingSetExtrator;
 
 import IOManager.InputJSON;
 import graphManagement.Edge;
-import graphManagement.Graph;
 import graphManagement.Vertex;
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class ExactDominantSetSolver {
@@ -31,51 +33,46 @@ public class ExactDominantSetSolver {
         return hasDominatingSetRecursive(maxSize, currentSet);
     }
 
-    private boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet)
-    {
-        if(size <= 0)
-            return false;
+	private boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet) {
+		if (size <= 0)
+			return false;
 
-        Vector<Vertex> currentlyDominated = new Vector<>();
-        for(Vertex chosen : currentSet)
-        {
-            Vector<Vertex> tmp = new Vector<>();
+		Vector<Vertex> currentlyDominated = new Vector<>();
+		for (Vertex chosen : currentSet) {
+			Vector<Vertex> tmp = new Vector<>();
 
-            for(Object e : g.edgesOf(chosen))
-            {
-                tmp.add((Vertex) ((Edge)e).getTarget());
-            }
+			for (Object e : g.edgesOf(chosen)) {
+				tmp.add((Vertex) ((Edge) e).getTarget());
+			}
 
-            for(Vertex tmpV : tmp)
-            {
-                if(currentlyDominated.contains(tmpV))
-                    continue;
-                currentlyDominated.add(tmpV);
-            }
+			for (Vertex tmpV : tmp) {
+				if (currentlyDominated.contains(tmpV))
+					continue;
+				currentlyDominated.add(tmpV);
+			}
 
-            if(!currentlyDominated.contains(chosen))
-                currentlyDominated.add(chosen);
-        }
+			if (!currentlyDominated.contains(chosen))
+				currentlyDominated.add(chosen);
+		}
 
-        if(currentlyDominated.size() == g.vertexSet().size())
-        {
-            dominatingSet.addAll(currentSet);
-            return true;
-        }
+		if (currentlyDominated.size() == g.vertexSet().size()) {
+			dominatingSet.addAll(currentSet);
+			return true;
+		}
 
 
-        for(Vertex v : verticesSet)
-        {
-            if(currentSet.contains(v) || v.isOpponent())
-                continue;
-            currentSet.add(v);
-            if(hasDominatingSetRecursive(size-1, currentSet))
-                return true;
-            currentSet.remove(v);
-        }
 
-        return false;
-    }
+		for (Vertex v : verticesSet) {
+			if (currentSet.contains(v))
+				continue;
+			currentSet.add(v);
+			if (hasDominatingSetRecursive(size - 1, currentSet))
+				return true;
+			currentSet.remove(v);
+		}
+
+		return false;
+	}
 
     private void trivialSet(int size)
     {
