@@ -1,17 +1,17 @@
 package graphManagement;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 
 public class Vertex {
-	public Point2D.Double location;
+	public Point.Double location;
 	public VertexType type;
 
 	public Vertex(double x, double y) {
-		location = new Point2D.Double(x, y);
+		location = new Point.Double(x, y);
 		type = VertexType.DEFENDER;
 	}
 
-	public Vertex(Point2D p) {
+	public Vertex(Point p) {
 		this(p.getX(), p.getY());
 	}
 

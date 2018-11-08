@@ -1,6 +1,7 @@
 package graphManagement.DominatingSetExtrator;
 
 import IOManager.InputJSON;
+import graphManagement.Edge;
 import graphManagement.Vertex;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
@@ -57,11 +58,15 @@ public class ExactDominantSetSolver {
 		Vector<Vertex> currentlyDominated = new Vector<>();
 		for (Vertex chosen : currentSet) {
 			Vector<Vertex> tmp = new Vector<>();
-			tmp.addAll(g.edgesOf(chosen));
+
+			for (Object e : g.edgesOf(chosen)) {
+				tmp.add((Vertex) ((Edge) e).getTarget());
+			}
 
 			for (Vertex tmpV : tmp) {
-				if (!currentlyDominated.contains(tmpV))
-					currentlyDominated.add(tmpV);
+				if (currentlyDominated.contains(tmpV))
+					continue;
+				currentlyDominated.add(tmpV);
 			}
 
 			if (!currentlyDominated.contains(chosen))
@@ -88,4 +93,5 @@ public class ExactDominantSetSolver {
 	private void trivialSet(int size) {
 		// ajouter un voisin de chaque opponent dans le dominatingSet
 	}
+	
 }
