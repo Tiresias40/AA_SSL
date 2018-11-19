@@ -10,16 +10,14 @@ import java.util.Vector;
 
 public class BasicGraphBuilder {
 
-    private static Graph<Vertex, Edge> graph = new Graph<>(Edge.class);
+	protected static Graph<Vertex, Edge> graph = new Graph<>(Edge.class);
 
-	private static Vector<Vertex> defendersVertexSet = new Vector<>();
-	private static Vector<Vertex> opponentsVertexSet = new Vector<>();
-	private static InputJSON inputValues;
+	protected static Vector<Vertex> defendersVertexSet = new Vector<>();
+	protected static Vector<Vertex> opponentsVertexSet = new Vector<>();
+	protected static InputJSON inputValues;
 
-	private BasicGraphBuilder() {
-	}
 
-	public static Graph<Vertex, Edge> buildBasicGraph(InputJSON input) {
+	public static Graph<Vertex, Edge> buildGraph(InputJSON input) {
 		inputValues = input;
 
 		createVertices();
@@ -29,38 +27,38 @@ public class BasicGraphBuilder {
 		return graph;
 	}
 
-	private static void setGraphEdges() {
+	protected static void setGraphEdges() {
 		setDefendersClique();
 		setOpponentsDefendersEdges();
 	}
 
-	private static void setGraphVertices() {
+	protected static void setGraphVertices() {
 		for (Vertex defender : defendersVertexSet)
 			graph.addVertex(defender);
 		for (Vertex opponent : opponentsVertexSet)
 			graph.addVertex(opponent);
 	}
 
-	private static void setDefendersClique() {
+	protected static void setDefendersClique() {
 		for (Vertex defender1 : defendersVertexSet)
 			for (Vertex defender2 : defendersVertexSet)
 				if (defender1 != defender2)
 					graph.addEdge(defender1, defender2);
 	}
 
-	private static void setOpponentsDefendersEdges() {
+	protected static void setOpponentsDefendersEdges() {
 		for (Vertex opponent : opponentsVertexSet)
 			for (Vertex defender : defendersVertexSet)
 				if (intersect(opponent, defender))
 					graph.addEdge(opponent, defender);
 	}
 
-	private static void createVertices() {
+	protected static void createVertices() {
 		createDefendersVertices();
 		createOpponentVertices();
 	}
 
-	private static void createDefendersVertices() {
+	protected static void createDefendersVertices() {
 		double xRunner = inputValues.getFieldLimits().get(0).getX();
 		double xBorder = inputValues.getFieldLimits().get(1).getX();
 
@@ -72,7 +70,7 @@ public class BasicGraphBuilder {
 				defendersVertexSet.add(new Vertex(xRunner, yRunner));
 	}
 
-	private static void createOpponentVertices() {
+	protected static void createOpponentVertices() {
 		for (Point opponentPos : inputValues.getOpponents()) {
 			Vertex v = new Vertex(opponentPos);
 			if (defendersVertexSet.contains(v))
@@ -84,7 +82,8 @@ public class BasicGraphBuilder {
 		}
 	}
 
-	private static boolean intersect(Vertex opponent, Vertex defender) {
+	protected static boolean intersect(Vertex opponent, Vertex defender) {
+
 		return false;
 	}
 

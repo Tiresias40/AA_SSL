@@ -7,7 +7,7 @@ import graphManagement.Vertex;
 
 import java.util.Vector;
 
-public class ExactDominantSetSolver {
+public class ExactDominantSetSolver implements DominatingSetSolver{
 
     public Vector<Vertex> dominatingSet = new Vector<>();
     private Graph g;
@@ -21,6 +21,7 @@ public class ExactDominantSetSolver {
         addAllVerticesToVertexSet(g);
     }
 
+    @Override
     public boolean hasDominatingSet(int maxSize)
     {
         getJSONInstanceOrDie();
@@ -31,7 +32,12 @@ public class ExactDominantSetSolver {
         return hasDominatingSetRecursive(maxSize, currentSet);
     }
 
-	private boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet) {
+    @Override
+    public Vector getVertices() {
+        return verticesSet;
+    }
+
+    private boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet) {
 		if (size <= 0)
 			return false;
 
@@ -74,6 +80,8 @@ public class ExactDominantSetSolver {
 
     private void trivialSet()
     {
+        if(g == null)
+            throw new RuntimeException("graph type Problem");
         Vector<Vertex> opponents = g.getOpponentVertices();
         for(Vertex opponent : opponents)
         {
@@ -104,7 +112,7 @@ public class ExactDominantSetSolver {
             existTrivialCase = true;
             trivialReturnValue = true;
 
-            trivialSet(size);
+            trivialSet();
         }
         return  existTrivialCase;
     }
