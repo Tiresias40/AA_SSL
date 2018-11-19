@@ -5,6 +5,7 @@ import java.awt.Point;
 public class Vertex {
 	public Point.Double location;
 	public VertexType type;
+	private boolean isOnIntersection = false;
 
 	public Vertex(double x, double y) {
 		location = new Point.Double(x, y);
@@ -36,5 +37,8 @@ public class Vertex {
 	public void setOpponent() {
 		type = VertexType.OPPONENT;
 	}
+
+	public boolean isOnIntersection() { return isOnIntersection; }
+	public void intersectAShoot() { isOnIntersection = true; }
 
 }

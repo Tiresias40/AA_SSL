@@ -30,6 +30,35 @@ public class BasicGraphBuilder {
 		return graph;
 	}
 
+    protected static void createVertices() {
+        createDefendersVertices();
+        createOpponentVertices();
+    }
+
+    protected static void createDefendersVertices() {
+        double xRunner = inputValues.getFieldLimits().get(0).getX();
+        double xBorder = inputValues.getFieldLimits().get(1).getX();
+
+        double yRunner = inputValues.getFieldLimits().get(0).getY();
+        double yBorder = inputValues.getFieldLimits().get(1).getY();
+
+        for (; xRunner < xBorder; xRunner += inputValues.getPosStep())
+            for (; yRunner < yBorder; yRunner += inputValues.getPosStep())
+                defendersVertexSet.add(new Vertex(xRunner, yRunner));
+    }
+
+    protected static void createOpponentVertices() {
+        for (Point opponentPos : inputValues.getOpponents()) {
+            Vertex v = new Vertex(opponentPos);
+            if (defendersVertexSet.contains(v))
+                defendersVertexSet.remove(v);
+            else {
+                v.setOpponent();
+                opponentsVertexSet.add(v);
+            }
+        }
+    }
+
 	protected static void setGraphEdges() {
         setOpponentsDefendersEdges();
         setDefendersClique();
@@ -54,38 +83,9 @@ public class BasicGraphBuilder {
 			for (Vertex defender : defendersVertexSet)
 				if (intersect(opponent, defender))
 					graph.addEdge(opponent, defender);
-				else
-				    graph.removeVertex(defender);
+
 	}
 
-	protected static void createVertices() {
-		createDefendersVertices();
-		createOpponentVertices();
-	}
-
-	protected static void createDefendersVertices() {
-		double xRunner = inputValues.getFieldLimits().get(0).getX();
-		double xBorder = inputValues.getFieldLimits().get(1).getX();
-
-		double yRunner = inputValues.getFieldLimits().get(0).getY();
-		double yBorder = inputValues.getFieldLimits().get(1).getY();
-
-		for (; xRunner < xBorder; xRunner += inputValues.getPosStep())
-			for (; yRunner < yBorder; yRunner += inputValues.getPosStep())
-				defendersVertexSet.add(new Vertex(xRunner, yRunner));
-	}
-
-	protected static void createOpponentVertices() {
-		for (Point opponentPos : inputValues.getOpponents()) {
-			Vertex v = new Vertex(opponentPos);
-			if (defendersVertexSet.contains(v))
-				defendersVertexSet.remove(v);
-			else {
-				v.setOpponent();
-				opponentsVertexSet.add(v);
-			}
-		}
-	}
 
 	protected static boolean intersect(Vertex opponent, Vertex defender) {
         double angle = 0;
