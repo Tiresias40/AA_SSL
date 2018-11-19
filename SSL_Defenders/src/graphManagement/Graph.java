@@ -26,8 +26,17 @@ public class Graph<V,E> extends SimpleGraph {
         else if(vertex.isOpponent())
             opponentsVertices.add(vertex);
 
+
         return super.addVertex(v);
     }
+
+    public boolean removeVertex(Vertex v)
+    {
+        opponentsVertices.remove(v);
+        defendersVertices.remove(v);
+        return super.removeVertex(v);
+    }
+
 
     public Vector<Vertex> getOpponentVertices() { return opponentsVertices; }
     public Vector<Vertex> getDefendersVertices() { return defendersVertices; }

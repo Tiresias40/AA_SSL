@@ -28,8 +28,8 @@ public class BasicGraphBuilder {
 	}
 
 	protected static void setGraphEdges() {
-		setDefendersClique();
-		setOpponentsDefendersEdges();
+        setOpponentsDefendersEdges();
+        setDefendersClique();
 	}
 
 	protected static void setGraphVertices() {
@@ -51,6 +51,8 @@ public class BasicGraphBuilder {
 			for (Vertex defender : defendersVertexSet)
 				if (intersect(opponent, defender))
 					graph.addEdge(opponent, defender);
+				else
+				    graph.removeVertex(defender);
 	}
 
 	protected static void createVertices() {
