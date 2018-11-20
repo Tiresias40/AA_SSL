@@ -41,4 +41,14 @@ public class Graph<V,E> extends SimpleGraph {
     public Vector<Vertex> getOpponentVertices() { return opponentsVertices; }
     public Vector<Vertex> getDefendersVertices() { return defendersVertices; }
 
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("defenders").append(defendersVertices).append("\n");
+        sb.append("opponents").append(opponentsVertices).append("\n");
+
+        return sb.toString();
+    }
+
 }

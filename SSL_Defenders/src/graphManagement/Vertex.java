@@ -41,4 +41,14 @@ public class Vertex {
 	public boolean isOnIntersection() { return isOnIntersection; }
 	public void intersectAShoot() { isOnIntersection = true; }
 
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Type : ").append(type).append("\n");
+		sb.append("Location : ").append(location).append("\n");
+
+		return sb.toString();
+	}
+
 }

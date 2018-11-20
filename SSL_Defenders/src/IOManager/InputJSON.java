@@ -149,4 +149,17 @@ public class InputJSON {
 	public void setPosStep(double posStep) {
 		this.posStep = posStep;
 	}
+
+	public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("fields limits : ").append(fieldLimits.toString()).append("\n");
+        sb.append("theta step : ").append(thetaStep).append("\n");
+        sb.append("pos step : ").append(posStep).append("\n");
+        sb.append("radius : ").append(robotRadius).append("\n");
+        sb.append("opponents : ").append(opponents).append("\n");
+        sb.append("goals : ").append(goals).append("\n");
+
+        return sb.toString();
+    }
 }
