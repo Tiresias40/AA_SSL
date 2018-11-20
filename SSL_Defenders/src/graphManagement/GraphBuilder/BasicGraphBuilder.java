@@ -41,14 +41,17 @@ public class BasicGraphBuilder {
 
         double yRunner = inputValues.getFieldLimits().get(1).getX();
         double yBorder = inputValues.getFieldLimits().get(1).getY();
-
-        long cpt = 0;
+        
         for (; xRunner < xBorder; xRunner += inputValues.getPosStep())
-            for (yRunner = inputValues.getFieldLimits().get(1).getX() ; yRunner < yBorder; yRunner += inputValues.getPosStep()) {
+        {
+            xRunner = Math.floor(xRunner*10)/10;
+
+            for (yRunner = inputValues.getFieldLimits().get(1).getX(); yRunner < yBorder; yRunner += inputValues.getPosStep())
+            {
+                yRunner = Math.floor(yRunner*10)/10;
                 defendersVertexSet.add(new Vertex(xRunner, yRunner));
-                cpt++;
             }
-        System.out.println(cpt);
+        }
     }
 
     protected static void createOpponentVertices() {

@@ -22,4 +22,14 @@ public class Goal {
 	public Point2D.Double getDirection() {
 		return direction;
 	}
+
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("limits : ").append(limits).append("\n");
+		sb.append("direction : ").append(direction).append("\n");
+
+		return sb.toString();
+	}
 }
