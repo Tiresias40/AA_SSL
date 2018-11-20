@@ -13,11 +13,11 @@ public class Vertex {
 		type = VertexType.DEFENDER;
 	}
 
-	public Vertex(Point p) {
+	public Vertex(Point2D.Double p) {
 		this(p.getX(), p.getY());
 	}
 
-	public Vertex(Point p, VertexType type)
+	public Vertex(Point2D.Double p, VertexType type)
     {
         this(p);
         this.type = type;
