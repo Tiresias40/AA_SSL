@@ -14,7 +14,7 @@ public class OutputJSON {
         StringBuilder sb = new StringBuilder();
         sb.append("{\n\t\"defenders\" : [");
 
-        Vector<Vertex> vertices = solution.getVertices();
+        Vector<Vertex> vertices = solution.getDominatingSet();
         boolean first = true;
         for(Vertex v : vertices)
         {

@@ -25,15 +25,15 @@ public class ExactDominantSetSolver implements DominatingSetSolver{
     public boolean hasDominatingSet(int maxSize)
     {
         getJSONInstanceOrDie();
-        if(checkTrivialCases(maxSize))
-            return trivialReturnValue;
+        //if(checkTrivialCases(maxSize))
+        //    return trivialReturnValue;
 
         Vector<Vertex> currentSet = new Vector<>();
         return hasDominatingSetRecursive(maxSize, currentSet);
     }
 
     @Override
-    public Vector getVertices() {
+    public Vector<Vertex> getVertices() {
         return verticesSet;
     }
 
@@ -50,9 +50,8 @@ public class ExactDominantSetSolver implements DominatingSetSolver{
 			}
 
 			for (Vertex tmpV : tmp) {
-				if (currentlyDominated.contains(tmpV))
-					continue;
-				currentlyDominated.add(tmpV);
+				if (!currentlyDominated.contains(tmpV))
+					currentlyDominated.add(tmpV);
 			}
 
 			if (!currentlyDominated.contains(chosen))
@@ -64,15 +63,13 @@ public class ExactDominantSetSolver implements DominatingSetSolver{
 			return true;
 		}
 
-
-
 		for (Vertex v : verticesSet) {
-			if (currentSet.contains(v))
-				continue;
-			currentSet.add(v);
-			if (hasDominatingSetRecursive(size - 1, currentSet))
-				return true;
-			currentSet.remove(v);
+			if (!currentSet.contains(v)) {
+				currentSet.add(v);
+				if (hasDominatingSetRecursive(size - 1, currentSet))
+					return true;
+				currentSet.remove(v);
+			}
 		}
 
 		return false;
@@ -107,7 +104,7 @@ public class ExactDominantSetSolver implements DominatingSetSolver{
             existTrivialCase = true;
             trivialReturnValue = false;
         }
-        else if(size >= input.opponentNumber())
+        else if(size > input.opponentNumber())
         {
             existTrivialCase = true;
             trivialReturnValue = true;
@@ -115,6 +112,10 @@ public class ExactDominantSetSolver implements DominatingSetSolver{
             trivialSet();
         }
         return  existTrivialCase;
+    }
+    
+    public Vector<Vertex> getDominatingSet() {
+    	return dominatingSet;
     }
 
 
