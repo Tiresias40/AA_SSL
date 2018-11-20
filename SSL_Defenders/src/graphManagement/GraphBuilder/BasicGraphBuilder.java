@@ -39,14 +39,14 @@ public class BasicGraphBuilder {
         double xRunner = inputValues.getFieldLimits().get(0).getX();
         double xBorder = inputValues.getFieldLimits().get(0).getY();
 
-        double yRunner = inputValues.getFieldLimits().get(1).getX();
+        double yRunner;
         double yBorder = inputValues.getFieldLimits().get(1).getY();
         
-        for (; xRunner < xBorder; xRunner += inputValues.getPosStep())
+        for (; xRunner <= xBorder; xRunner += inputValues.getPosStep())
         {
             xRunner = Math.floor(xRunner*10)/10;
 
-            for (yRunner = inputValues.getFieldLimits().get(1).getX(); yRunner < yBorder; yRunner += inputValues.getPosStep())
+            for (yRunner = inputValues.getFieldLimits().get(1).getX(); yRunner <= yBorder; yRunner += inputValues.getPosStep())
             {
                 yRunner = Math.floor(yRunner*10)/10;
                 defendersVertexSet.add(new Vertex(xRunner, yRunner));
