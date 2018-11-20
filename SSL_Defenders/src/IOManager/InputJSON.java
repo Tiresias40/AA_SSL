@@ -42,12 +42,13 @@ public class InputJSON {
 			System.exit(-1);
 
 		fieldLimits = new ArrayList<Point>();
-		JSONArray fields = jObj.getJSONArray("fields_limits");
-		for (int i = 0 ; i < fields.length() ; i++) {
+		JSONArray fields = jObj.getJSONArray("field_limits");
+		for (int i = 0; i < fields.length(); i++) {
 			JSONArray field = fields.getJSONArray(i);
 			fieldLimits.add(new Point(field.getInt(0), field.getInt(1)));
 		}
-		
+
+
 		goals = new ArrayList<Goal>();
 		JSONArray listGoals = jObj.getJSONArray("goals");
 		for (int i = 0 ; i < listGoals.length() ; i++) {			

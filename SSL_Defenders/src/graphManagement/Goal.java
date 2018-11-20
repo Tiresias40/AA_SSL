@@ -8,6 +8,7 @@ public class Goal {
 	private Point direction;
 
 	public Goal(ArrayList<Point> limits, Point direction) {
+		limits = new ArrayList<>();
 		for (Point lim : limits) {
 			this.limits.add((Point) lim.clone());
 		}
