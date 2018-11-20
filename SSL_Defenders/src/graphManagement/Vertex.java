@@ -1,9 +1,10 @@
 package graphManagement;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class Vertex {
-	public Point.Double location;
+	public Point2D.Double location;
 	public VertexType type;
 	private boolean isOnIntersection = false;
 
