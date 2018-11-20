@@ -8,7 +8,7 @@ public class Goal {
 	private Point direction;
 
 	public Goal(ArrayList<Point> limits, Point direction) {
-		limits = new ArrayList<>();
+		this.limits = new ArrayList<>();
 		for (Point lim : limits) {
 			this.limits.add((Point) lim.clone());
 		}
@@ -21,5 +21,15 @@ public class Goal {
 
 	public Point getDirection() {
 		return direction;
+	}
+
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("limits : ").append(limits).append("\n");
+		sb.append("direction : ").append(direction).append("\n");
+
+		return sb.toString();
 	}
 }
