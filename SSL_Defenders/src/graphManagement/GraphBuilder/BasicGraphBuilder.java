@@ -37,18 +37,22 @@ public class BasicGraphBuilder {
 
     protected static void createDefendersVertices() {
         double xRunner = inputValues.getFieldLimits().get(0).getX();
-        double xBorder = inputValues.getFieldLimits().get(1).getX();
+        double xBorder = inputValues.getFieldLimits().get(0).getY();
 
-        double yRunner = inputValues.getFieldLimits().get(0).getY();
+        double yRunner = inputValues.getFieldLimits().get(1).getX();
         double yBorder = inputValues.getFieldLimits().get(1).getY();
 
+        long cpt = 0;
         for (; xRunner < xBorder; xRunner += inputValues.getPosStep())
-            for (; yRunner < yBorder; yRunner += inputValues.getPosStep())
+            for (yRunner = inputValues.getFieldLimits().get(1).getX() ; yRunner < yBorder; yRunner += inputValues.getPosStep()) {
                 defendersVertexSet.add(new Vertex(xRunner, yRunner));
+                cpt++;
+            }
+        System.out.println(cpt);
     }
 
     protected static void createOpponentVertices() {
-        for (Point opponentPos : inputValues.getOpponents()) {
+        for (Point2D.Double opponentPos : inputValues.getOpponents()) {
             Vertex v = new Vertex(opponentPos);
             if (defendersVertexSet.contains(v))
                 defendersVertexSet.remove(v);

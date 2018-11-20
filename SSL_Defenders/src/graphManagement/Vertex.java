@@ -1,22 +1,22 @@
 package graphManagement;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class Vertex {
-	public Point.Double location;
+	public Point2D.Double location;
 	public VertexType type;
 	private boolean isOnIntersection = false;
 
 	public Vertex(double x, double y) {
-		location = new Point.Double(x, y);
+		location = new Point2D.Double(x, y);
 		type = VertexType.DEFENDER;
 	}
 
-	public Vertex(Point p) {
+	public Vertex(Point2D.Double p) {
 		this(p.getX(), p.getY());
 	}
 
-	public Vertex(Point p, VertexType type)
+	public Vertex(Point2D.Double p, VertexType type)
     {
         this(p);
         this.type = type;

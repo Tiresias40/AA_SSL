@@ -1,25 +1,25 @@
 package graphManagement;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class Goal {
-	private ArrayList<Point> limits;
-	private Point direction;
+	private ArrayList<Point2D.Double> limits;
+	private Point2D.Double direction;
 
-	public Goal(ArrayList<Point> limits, Point direction) {
-		limits = new ArrayList<>();
-		for (Point lim : limits) {
-			this.limits.add((Point) lim.clone());
+	public Goal(ArrayList<Point2D.Double> limits, Point2D.Double direction) {
+		this.limits = new ArrayList<>();
+		for (Point2D.Double lim : limits) {
+			this.limits.add((Point2D.Double) lim.clone());
 		}
 		this.direction = direction;
 	}
 
-	public ArrayList<Point> getGoalLimits() {
+	public ArrayList<Point2D.Double> getGoalLimits() {
 		return limits;
 	}
 
-	public Point getDirection() {
+	public Point2D.Double getDirection() {
 		return direction;
 	}
 }

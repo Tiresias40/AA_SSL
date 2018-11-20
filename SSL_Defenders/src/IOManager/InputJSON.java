@@ -4,16 +4,16 @@ import graphManagement.Goal;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.FileReader;
 
 public class InputJSON {
 
 	public static InputJSON singleton = null;
 
-	private ArrayList<Point> fieldLimits;
+	private ArrayList<Point2D.Double> fieldLimits;
 	private ArrayList<Goal> goals;
-	private ArrayList<Point> opponents;
+	private ArrayList<Point2D.Double> opponents;
 	private double robotRadius;
 	private double thetaStep;
 	private double posStep;
@@ -41,11 +41,11 @@ public class InputJSON {
 		if (jObj == null)
 			System.exit(-1);
 
-		fieldLimits = new ArrayList<Point>();
+		fieldLimits = new ArrayList<Point2D.Double>();
 		JSONArray fields = jObj.getJSONArray("field_limits");
 		for (int i = 0; i < fields.length(); i++) {
 			JSONArray field = fields.getJSONArray(i);
-			fieldLimits.add(new Point(field.getInt(0), field.getInt(1)));
+			fieldLimits.add(new Point2D.Double(field.getDouble(0), field.getDouble(1)));
 		}
 
 
@@ -54,22 +54,22 @@ public class InputJSON {
 		for (int i = 0 ; i < listGoals.length() ; i++) {			
 			JSONObject currGoal = listGoals.getJSONObject(i);
 
-			ArrayList<Point> limits = new ArrayList<Point>();
+			ArrayList<Point2D.Double> limits = new ArrayList<Point2D.Double>();
 			JSONArray posts = currGoal.getJSONArray("posts");
 			for (int j = 0 ; j < posts.length() ; j++) {
 				JSONArray point = posts.getJSONArray(j);
-				limits.add(new Point(point.getInt(0), point.getInt(1)));
+				limits.add(new Point2D.Double(point.getDouble(0), point.getDouble(1)));
 			}
 			
 			JSONArray direction = currGoal.getJSONArray("direction");
-			goals.add(new Goal(limits, new Point(direction.getInt(0), direction.getInt(1))));
+			goals.add(new Goal(limits, new Point2D.Double(direction.getDouble(0), direction.getDouble(1))));
 		}
 		
-		opponents = new ArrayList<Point>();
+		opponents = new ArrayList<Point2D.Double>();
 		JSONArray totalOpponents = jObj.getJSONArray("opponents");
 		for (int i = 0 ; i < totalOpponents.length() ; i++) {
 			JSONArray opponent = totalOpponents.getJSONArray(i);
-			opponents.add(new Point(opponent.getInt(0), opponent.getInt(1)));
+			opponents.add(new Point2D.Double(opponent.getDouble(0), opponent.getDouble(1)));
 		}
 		
 
@@ -102,11 +102,11 @@ public class InputJSON {
 		return opponents.size();
 	}
 
-	public ArrayList<Point> getFieldLimits() {
+	public ArrayList<Point2D.Double> getFieldLimits() {
 		return fieldLimits;
 	}
 
-	public void setFieldLimits(ArrayList<Point> fieldLimits) {
+	public void setFieldLimits(ArrayList<Point2D.Double> fieldLimits) {
 		this.fieldLimits = fieldLimits;
 	}
 
@@ -118,11 +118,11 @@ public class InputJSON {
 		this.goals = goals;
 	}
 
-	public ArrayList<Point> getOpponents() {
+	public ArrayList<Point2D.Double> getOpponents() {
 		return opponents;
 	}
 
-	public void setOpponents(ArrayList<Point> opponents) {
+	public void setOpponents(ArrayList<Point2D.Double> opponents) {
 		this.opponents = opponents;
 	}
 
