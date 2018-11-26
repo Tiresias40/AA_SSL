@@ -32,8 +32,10 @@ public class Graph<V,E> extends SimpleGraph {
 
     public boolean removeVertex(Vertex v)
     {
-        opponentsVertices.remove(v);
-        defendersVertices.remove(v);
+        if(v.isOpponent())
+            opponentsVertices.remove(v);
+        if(v.isDefender())
+            defendersVertices.remove(v);
         return super.removeVertex(v);
     }
 
@@ -47,6 +49,9 @@ public class Graph<V,E> extends SimpleGraph {
 
         sb.append("defenders").append(defendersVertices).append("\n");
         sb.append("opponents").append(opponentsVertices).append("\n");
+
+        sb.append("Edges : ").append("\n");
+
 
         return sb.toString();
     }

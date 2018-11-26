@@ -18,11 +18,11 @@ public class OutputJSON {
         boolean first = true;
         for(Vertex v : vertices)
         {
-            if(first)
-            {
+            if(!first)
                 sb.append(",\n");
+            else
                 first = false;
-            }
+
             sb.append("\t\t");
             sb.append('[').append(v.location.x).append(',').append(v.location.y).append(']');
         }

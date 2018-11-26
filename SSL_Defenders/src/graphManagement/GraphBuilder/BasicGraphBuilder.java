@@ -7,7 +7,7 @@ import graphManagement.Goal;
 import graphManagement.Graph;
 import graphManagement.Vertex;
 
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Vector;
 
@@ -68,6 +68,8 @@ public class BasicGraphBuilder {
 
 	protected static void setGraphEdges() {
         setOpponentsDefendersEdges();
+        defendersVertexSet = graph.getDefendersVertices();
+        opponentsVertexSet = graph.getOpponentVertices();
         setDefendersClique();
 	}
 
@@ -81,7 +83,7 @@ public class BasicGraphBuilder {
 	protected static void setDefendersClique() {
 		for (Vertex defender1 : defendersVertexSet)
 			for (Vertex defender2 : defendersVertexSet)
-				if (defender1 != defender2)
+				if (!defender1.equals(defender2))
 					graph.addEdge(defender1, defender2);
 	}
 
@@ -90,14 +92,15 @@ public class BasicGraphBuilder {
 			for (Vertex defender : defendersVertexSet)
 				if (intersect(opponent, defender))
 					graph.addEdge(opponent, defender);
+				else
+                    graph.removeVertex(defender);
 
 	}
 
 
 	protected static boolean intersect(Vertex opponent, Vertex defender) {
         double angle = 0;
-        double PI_2 = Math.PI *2;
-        while(angle < PI_2)
+        while(angle <= Math.PI)
         {
             double x = opponent.location.getX() + Math.sin(angle);
             double y = opponent.location.getY() + Math.cos(angle);
@@ -117,5 +120,6 @@ public class BasicGraphBuilder {
         }
 		return false;
 	}
+
 
 }
