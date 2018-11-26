@@ -13,7 +13,7 @@ import java.util.Vector;
 
 public class BasicGraphBuilder {
 
-	protected static Graph<Vertex, Edge> graph = new Graph<>(Edge.class);
+	protected static Graph<Vertex, Edge> graph = new Graph<Vertex, Edge>(Edge.class);
 
 	protected static Vector<Vertex> defendersVertexSet = new Vector<>();
 	protected static Vector<Vertex> opponentsVertexSet = new Vector<>();
