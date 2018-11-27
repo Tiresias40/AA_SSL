@@ -1,6 +1,6 @@
 package IOManager;
 
-import graphManagement.DominatingSetExtrator.DominatingSetSolver;
+import graphManagement.DominatingSetExtrator.DominatingSetSolverInterface;
 import graphManagement.Vertex;
 
 import java.io.BufferedWriter;
@@ -9,7 +9,7 @@ import java.util.Vector;
 
 public class OutputJSON {
 
-    public static void writeToJSON(DominatingSetSolver solution)
+    public static void writeToJSON(DominatingSetSolverInterface solution)
     {
         StringBuilder sb = new StringBuilder();
         sb.append("{\n\t\"defenders\" : [");

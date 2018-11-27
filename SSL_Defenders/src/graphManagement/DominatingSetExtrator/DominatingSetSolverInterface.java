@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import graphManagement.Vertex;
 
-public interface DominatingSetSolver {
+public interface DominatingSetSolverInterface {
 
     boolean hasDominatingSet(int maxSize);
     Vector<Vertex> getDominatingSet();
