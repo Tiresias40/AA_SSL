@@ -7,7 +7,7 @@ import graphManagement.Vertex;
 
 import java.util.Vector;
 
-public class ExactDominantSetSolver implements DominatingSetSolver{
+public class ExactDominantSetSolver implements DominatingSetSolverInterface{
 
 	private int cpt = 0;
 	
@@ -24,69 +24,92 @@ public class ExactDominantSetSolver implements DominatingSetSolver{
     }
 
     @Override
-    public boolean hasDominatingSet(int maxSize)
-    {
-        getJSONInstanceOrDie();
-        //if(checkTrivialCases(maxSize))
-        //    return trivialReturnValue;
-
-        Vector<Vertex> currentSet = new Vector<>();
-        return hasDominatingSetRecursive(maxSize, currentSet);
-    }
-
-    @Override
     public Vector<Vertex> getVertices() {
         return verticesSet;
     }
-
-    private boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet) {
-    	System.out.println(cpt++);
-		if (size <= 0)
-			return false;
-
-		Vector<Vertex> currentlyDominated = new Vector<>();
-		for (Vertex chosen : currentSet) {
-			Vector<Vertex> tmp = new Vector<>();
-
-			for (Object e : g.edgesOf(chosen)) {
-				tmp.add((Vertex) ((Edge) e).getTarget());
-			}
-
-			for (Vertex tmpV : tmp) {
-				if (!currentlyDominated.contains(tmpV))
-					currentlyDominated.add(tmpV);
-			}
-
-			if (!currentlyDominated.contains(chosen))
-				currentlyDominated.add(chosen);
+    
+    @Override
+    public boolean hasDominatingSet(int maxSize) {
+    	boolean ret = false;
+    	boolean found = false;
+    	
+    	while (maxSize > 0) {
+    		ret = hasDominatingSetRecursive(maxSize--);
+    		if(ret == true)
+    			found = ret;
+    		if (ret == false)
+    			return found;
+    	}
+    	
+    	return found;
+    }
+    
+    public boolean hasDominatingSetRecursive(int maxSize) {
+    	// Init edge set with only edges of opponent-defender type
+    	Vector<Edge> opponentDefendersEdgesSet = new Vector<Edge>();
+    	for(Object e : g.edgeSet()) {
+    		if(((Vertex) ((Edge) e).getSource()).isOpponent())
+    			opponentDefendersEdgesSet.add((Edge) e);
+    	}
+    	
+    	// Init dominating set with 3 first vertices
+    	for(int i = 0 ; i < maxSize ; i++) {
+			dominatingSet.add(g.getDefendersVertices().get(i));
 		}
-
-		if (currentlyDominated.size() == g.vertexSet().size()) {
-			dominatingSet.addAll(currentSet);
-			return true;
-		}
-
-		for (Vertex v : verticesSet) {
-			if (!currentSet.contains(v)) {
-				currentSet.add(v);
-				if (hasDominatingSetRecursive(size - 1, currentSet))
-					return true;
-				currentSet.remove(v);
-			}
-		}
-
-		return false;
-	}
-
-    private void trivialSet()
-    {
-        if(g == null)
-            throw new RuntimeException("graph type Problem");
-        Vector<Vertex> opponents = g.getOpponentVertices();
-        for(Vertex opponent : opponents)
-        {
-
-        }
+    	
+    	boolean goodCombination = false;
+    	// runs until all combinations have been tested or a good one has been found
+    	while(true) {    		
+    		for(Edge e : opponentDefendersEdgesSet) {
+    			goodCombination = false;
+    			for (Vertex v : dominatingSet) {
+    				if(e.getTarget().equals(v)) {
+    					goodCombination = true;
+    					continue;
+    				}
+    			}
+    			if(!goodCombination) {
+    				continue;
+    			}
+    		}
+    		if(goodCombination) {
+    			return true;
+    		}
+    		
+    		if(!calculateDominatingSet())
+    			return false;
+    	}
+    }
+    
+    private boolean calculateDominatingSet() {
+    	boolean ret = true;
+    	
+    	// We take the last element of dominating set to incr it
+    	Vertex current = dominatingSet.remove(dominatingSet.size());
+    	int indexCurrInDef = g.getDefendersVertices().indexOf(current);
+    	
+    	// if next index is out of range
+    	if(indexCurrInDef + 1 > g.getDefendersVertices().size()) {
+    		// if the set is empty, it means all combination have been tested
+    		if(dominatingSet.isEmpty())
+    			ret = false;
+    		// We take the next element and test it
+    		ret = calculateDominatingSet();
+    		// if the last element of dominating set is equal to the one we were processing, it means we need to go higher in the combination to incr
+    		if(g.getDefendersVertices().get(indexCurrInDef).equals(dominatingSet.lastElement())) 
+    			ret = calculateDominatingSet();
+    		// if the element we were processing is bigger than the last of dominating set
+    		// we take the one just after the value of dominating set (we incr only by one)
+    		int indexLastOfDSInDef = g.getDefendersVertices().indexOf(dominatingSet.lastElement());
+    		if(indexCurrInDef > indexLastOfDSInDef + 1)
+    			current = g.getDefendersVertices().get(indexLastOfDSInDef + 1);
+    	}
+    	// if all goes well, simple incr
+    	else {
+    		dominatingSet.add(g.getDefendersVertices().get(indexCurrInDef + 1));
+    	}
+    	
+    	return ret;
     }
 
     private void getJSONInstanceOrDie()
@@ -99,22 +122,6 @@ public class ExactDominantSetSolver implements DominatingSetSolver{
             e.printStackTrace();
             System.exit(-1);
         }
-    }
-
-    private boolean checkTrivialCases(int size) {
-        boolean existTrivialCase = false;
-        if (size <= 0) {
-            existTrivialCase = true;
-            trivialReturnValue = false;
-        }
-        else if(size > input.opponentNumber())
-        {
-            existTrivialCase = true;
-            trivialReturnValue = true;
-
-            trivialSet();
-        }
-        return  existTrivialCase;
     }
     
     public Vector<Vertex> getDominatingSet() {
