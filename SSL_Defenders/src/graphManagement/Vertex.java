@@ -4,30 +4,52 @@ import java.awt.geom.Point2D;
 
 public class Vertex {
 	public Point2D.Double location;
-	public VertexType type;
+	private VertexType type;
 	private boolean isOnIntersection = false;
+	private int degree;
 
 	public Vertex(double x, double y) {
-		location = new Point2D.Double(x, y);
-		type = VertexType.DEFENDER;
+		this.location = new Point2D.Double(x, y);
+		this.type = VertexType.DEFENDER;
+		this.isOnIntersection = false;
+		this.degree = 0;
 	}
 
 	public Vertex(Point2D.Double p) {
 		this(p.getX(), p.getY());
 	}
 
-	public Vertex(Point2D.Double p, VertexType type)
-    {
-        this(p);
-        this.type = type;
-    }
+	public Vertex(Point2D.Double p, VertexType type) {
+		this(p);
+		this.type = type;
+	}
+
+	public int getDegree() {
+		return degree;
+	}
+
+	public void setDegree(int degree) {
+		this.degree = degree;
+	}
+
+	public VertexType getType() {
+		return type;
+	}
+
+	public void setType(VertexType type) {
+		this.type = type;
+	}
+
+	public void setOnIntersection(boolean isOnIntersection) {
+		this.isOnIntersection = isOnIntersection;
+	}
 
 	public boolean isDefender() {
-		return type == VertexType.DEFENDER;
+		return (this.getType() == VertexType.DEFENDER);
 	}
 
 	public boolean isOpponent() {
-		return type == VertexType.OPPONENT;
+		return (this.getType() == VertexType.OPPONENT);
 	}
 
 	public void setDefender() {
@@ -35,14 +57,18 @@ public class Vertex {
 	}
 
 	public void setOpponent() {
-		type = VertexType.OPPONENT;
+		this.type = VertexType.OPPONENT;
 	}
 
-	public boolean isOnIntersection() { return isOnIntersection; }
-	public void intersectAShoot() { isOnIntersection = true; }
+	public boolean isOnIntersection() {
+		return isOnIntersection;
+	}
 
-	public String toString()
-	{
+	public void intersectAShoot() {
+		isOnIntersection = true;
+	}
+
+	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("Type : ").append(type).append("\n");

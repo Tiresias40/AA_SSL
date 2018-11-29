@@ -48,7 +48,6 @@ public class InputJSON {
 			fieldLimits.add(new Point2D.Double(field.getDouble(0), field.getDouble(1)));
 		}
 
-
 		goals = new ArrayList<Goal>();
 		JSONArray listGoals = jObj.getJSONArray("goals");
 		for (int i = 0 ; i < listGoals.length() ; i++) {			
@@ -72,7 +71,6 @@ public class InputJSON {
 			opponents.add(new Point2D.Double(opponent.getDouble(0), opponent.getDouble(1)));
 		}
 		
-
 		robotRadius = jObj.getDouble("robot_radius");
 		thetaStep = jObj.getDouble("theta_step");
 		posStep = jObj.getDouble("pos_step");
