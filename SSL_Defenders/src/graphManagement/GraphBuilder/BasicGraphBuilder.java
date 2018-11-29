@@ -71,8 +71,10 @@ public class BasicGraphBuilder {
 		setOpponentsDefendersEdges();
 		// Delete no blocking defenders
 		for (Vertex v : new Vector<Vertex>(defendersVertexSet)) {
-			if (v.getDegree() == 0)
+			if (v.getDegree() == 0) {
 				defendersVertexSet.remove(v);
+				graph.removeVertex(v);
+			}
 		}
 		// Create edge between defenders
 		setDefendersClique();
