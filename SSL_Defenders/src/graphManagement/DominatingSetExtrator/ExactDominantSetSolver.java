@@ -3,6 +3,7 @@ package graphManagement.DominatingSetExtrator;
 import IOManager.InputJSON;
 import graphManagement.Edge;
 import graphManagement.Graph;
+import graphManagement.GraphBuilder.BasicGraphBuilder;
 import graphManagement.Vertex;
 
 import java.util.Vector;
@@ -63,7 +64,7 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
 				currentlyDominated.add(chosen);
 		}
 
-		if (currentlyDominated.size() == g.vertexSet().size()) {
+		if (currentlyDominated.size() == g.vertexSet().size() && BasicGraphBuilder.allIntersected(currentSet)) {
 			dominatingSet.addAll(currentSet);
 			return true;
 		}
