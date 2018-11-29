@@ -11,8 +11,9 @@ public class Main {
     {
     	//Reading data from problem jsonfile
         InputJSON input = InputJSON.getInstance("../data_json/problem/basic_problem_1.json");
-        //Create graph with the json data
-        Graph<Vertex, Edge> g = BasicGraphBuilder.buildGraph(input);
+
+        //Create graph with the json data and mode (0 = brute-force algorithm/ 1 = greedy algorithm)
+        Graph<Vertex, Edge> g = BasicGraphBuilder.buildGraph(input, Integer.parseInt(args[0]));
         //Initialize dominant solver
         ExactDominantSetSolver dss = new ExactDominantSetSolver(g);
         //check if graph contains dominantSet

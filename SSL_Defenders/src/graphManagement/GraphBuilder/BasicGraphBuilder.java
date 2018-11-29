@@ -20,8 +20,11 @@ public class BasicGraphBuilder {
 	private static Vector<Vertex> opponentsVertexSet = new Vector<Vertex>();
 	private static InputJSON inputValues;
 
-	// Initialize graph with json data
-	public static Graph<Vertex, Edge> buildGraph(InputJSON input) {
+	/* Initialize graph with json data
+	 * input : json file 
+	 * mode : 0 = brute-force algorithm / 1 = greedy algorithm
+	 */
+	public static Graph<Vertex, Edge> buildGraph(InputJSON input, int mode) {
 		inputValues = input;
 
 		createVertices();
