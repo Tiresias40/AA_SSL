@@ -6,6 +6,7 @@ import graphManagement.Edge;
 import graphManagement.Goal;
 import graphManagement.Graph;
 import graphManagement.Vertex;
+import graphManagement.VertexType;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -90,7 +91,6 @@ public class BasicGraphBuilder {
 			for (Vertex defender : defendersVertexSet)
 				if (intersect(opponent, defender))
 					graph.addEdge(opponent, defender);
-
 	}
 
 
@@ -107,9 +107,8 @@ public class BasicGraphBuilder {
                 Point.Double gp1 = new Point.Double(g.getGoalLimits().get(0).getX(),g.getGoalLimits().get(0).getY());
                 Point.Double gp2 = new Point.Double(g.getGoalLimits().get(1).getX(),g.getGoalLimits().get(1).getY());
                 Point.Double crossLine = Geometry.segmentLintIntersection(gp1, gp2, new Point2D.Double(x, y), opponent.location);
-                if(crossLine == null)
-                    continue;
-                if(Geometry.circleLineIntersection(opponent.location, crossLine, defender.location, inputValues.getRobotRadius()) != null)
+                if(crossLine != null && 
+                		Geometry.circleLineIntersection(opponent.location, crossLine, defender.location, inputValues.getRobotRadius()) != null)
                     return true;
             }
 
