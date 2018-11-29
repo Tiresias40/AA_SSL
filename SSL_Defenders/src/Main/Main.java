@@ -17,8 +17,8 @@ public class Main {
         ExactDominantSetSolver dss = new ExactDominantSetSolver(g);
         //check if graph contains dominantSet
 
-        boolean result = dss.hasDominatingSet(2);
-    	System.out.println(result);
+        boolean result = dss.hasDominatingSet(3);
+        System.out.println(result);
     	//Write in out.json file position of defenders of dominantSet
         if(result)
         	OutputJSON.writeToJSON(dss);

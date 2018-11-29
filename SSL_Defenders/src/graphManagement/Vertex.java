@@ -77,4 +77,9 @@ public class Vertex {
 		return sb.toString();
 	}
 
+	public boolean hasSameLocation(Vertex other)
+	{
+		return (other.location.getX() == location.getX() && other.location.getY() == location.getY());
+	}
+
 }

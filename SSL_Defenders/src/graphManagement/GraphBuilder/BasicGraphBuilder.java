@@ -36,8 +36,8 @@ public class BasicGraphBuilder {
 
 	// Create all vertex
 	private static void createVertices() {
-		createDefendersVertices();
-		createOpponentVertices();
+        createOpponentVertices();
+	    createDefendersVertices();
 	}
 
 	private static void createDefendersVertices() {
@@ -53,19 +53,23 @@ public class BasicGraphBuilder {
 			for (yRunner = inputValues.getFieldLimits().get(1).getX(); yRunner < yBorder; yRunner += inputValues
 					.getPosStep()) {
 				yRunner = Math.floor(yRunner * 10) / 10;
-				defendersVertexSet.add(new Vertex(xRunner, yRunner));
+				Vertex v = new Vertex(xRunner, yRunner);
+				boolean isCandidate = false;
+				for(Vertex opponent : opponentsVertexSet){
+				    if(!v.hasSameLocation(opponent) || intersect(opponent, v)) {
+                        isCandidate = true;
+                        break;
+                    }
+                }
+                if(isCandidate)
+				    defendersVertexSet.add(v);
 			}
 		}
 	}
 
 	private static void createOpponentVertices() {
-		for (Point2D.Double opponentPos : inputValues.getOpponents()) {
-			Vertex v = new Vertex(opponentPos);
-			if (defendersVertexSet.contains(v))
-				defendersVertexSet.remove(v);
-			v.setType(VertexType.OPPONENT);
-			opponentsVertexSet.add(v);
-		}
+		for (Point2D.Double opponentPos : inputValues.getOpponents())
+            opponentsVertexSet.add(new Vertex(opponentPos, VertexType.OPPONENT));
 	}
 
 	private static void setGraphEdges() {
@@ -73,11 +77,11 @@ public class BasicGraphBuilder {
 		setOpponentsDefendersEdges();
 		// Delete no blocking defenders
 		for (Vertex v : new Vector<Vertex>(defendersVertexSet)) {
-            if (v.getDegree() == 0) {
-                defendersVertexSet.remove(v);
-                graph.removeVertex(v);
-            }
-        }
+			if (v.getDegree() == 0) {
+				defendersVertexSet.remove(v);
+				graph.removeVertex(v);
+			}
+		}
 		// Create edge between defenders
 		setDefendersClique();
 	}
@@ -134,4 +138,43 @@ public class BasicGraphBuilder {
 		}
 		return false;
 	}
+
+	public static boolean allIntersected(Vector<Vertex> defenders)
+    {
+        boolean returnValue = true;
+        double angle = 0;
+        double PI_2 = Math.PI * 2;
+        for(Vertex opponent : graph.getOpponentVertices())
+        {
+            while (angle < PI_2) {
+                double x = opponent.location.getX() + Math.sin(angle);
+                double y = opponent.location.getY() + Math.cos(angle);
+
+                for (Goal g : inputValues.getGoals()) {
+                    Point.Double gp1 = new Point.Double(g.getGoalLimits().get(0)
+                            .getX(), g.getGoalLimits().get(0).getY());
+                    Point.Double gp2 = new Point.Double(g.getGoalLimits().get(1)
+                            .getX(), g.getGoalLimits().get(1).getY());
+                    Point.Double crossLine = Geometry.segmentLinetIntersection(gp1,
+                            gp2, new Point2D.Double(x, y), opponent.location);
+                    if (crossLine == null)
+                        continue;
+                    boolean tmpValue = false;
+                    for(Vertex defender : defenders)
+                    {
+                        tmpValue |= (Geometry.circleLineIntersection(opponent.location,
+                                crossLine, defender.location,
+                                inputValues.getRobotRadius()) != null);
+
+                    }
+
+                    returnValue &= tmpValue;
+
+                }
+
+                angle += inputValues.getThetaStep();
+            }
+        }
+        return returnValue;
+    }
 }
