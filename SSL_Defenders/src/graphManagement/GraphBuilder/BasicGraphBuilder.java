@@ -14,8 +14,7 @@ import java.util.Vector;
 
 public class BasicGraphBuilder {
 
-	protected static Graph<Vertex, Edge> graph = new Graph<Vertex, Edge>(
-			Edge.class);
+	protected static Graph<Vertex, Edge> graph = new Graph<Vertex, Edge>(Edge.class);
 
 	private static Vector<Vertex> defendersVertexSet = new Vector<Vertex>();
 	private static Vector<Vertex> opponentsVertexSet = new Vector<Vertex>();
@@ -99,12 +98,13 @@ public class BasicGraphBuilder {
 			for (Vertex defender : defendersVertexSet)
 				if (intersect(opponent, defender)) {
 					graph.addEdge(opponent, defender);
+
 					opponent.setDegree(opponent.getDegree() + 1);
 					defender.setDegree(defender.getDegree() + 1);
 				}
 	}
 
-	public static boolean intersect(Vertex opponent, Vertex defender) {
+	protected static boolean intersect(Vertex opponent, Vertex defender) {
 		double angle = 0;
 		double PI_2 = Math.PI * 2;
 		while (angle < PI_2) {
