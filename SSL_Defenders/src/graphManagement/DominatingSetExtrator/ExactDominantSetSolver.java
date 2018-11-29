@@ -9,14 +9,10 @@ import java.util.Vector;
 
 public class ExactDominantSetSolver implements DominatingSetSolverInterface{
 
-	private int cpt = 0;
-	
     public Vector<Vertex> dominatingSet = new Vector<>();
     private Graph<Vertex, Edge> g;
     private Vector<Vertex> verticesSet = new Vector<>();
     private InputJSON input = null;
-
-    private boolean trivialReturnValue;
 
     public ExactDominantSetSolver(Graph<Vertex, Edge> g){
         this.g = g;
@@ -131,7 +127,6 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
 
     private void addAllVerticesToVertexSet(Graph<Vertex, Edge> g)
     {
-        for(Object vertex : g.vertexSet())
-            verticesSet.add((Vertex) vertex);
+        verticesSet.addAll(g.getDefendersVertices());
     }
 }
