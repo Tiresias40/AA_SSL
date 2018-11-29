@@ -10,9 +10,9 @@ import java.util.Vector;
 public class ExactDominantSetSolver implements DominatingSetSolverInterface{
 
     public Vector<Vertex> dominatingSet = new Vector<>();
-    private Graph<Vertex, Edge> g;
-    private Vector<Vertex> verticesSet = new Vector<>();
-    private InputJSON input = null;
+    protected Graph<Vertex, Edge> g;
+    protected Vector<Vertex> verticesSet = new Vector<>();
+    protected InputJSON input = null;
 
     public ExactDominantSetSolver(Graph<Vertex, Edge> g){
         this.g = g;
@@ -40,7 +40,7 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     	return found;
     }
     
-    public boolean hasDominatingSetRecursive(int maxSize) {
+    protected boolean hasDominatingSetRecursive(int maxSize) {
     	// Init edge set with only edges of opponent-defender type
     	Vector<Edge> opponentDefendersEdgesSet = new Vector<Edge>();
     	for(Object e : g.edgeSet()) {
@@ -81,7 +81,7 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     	boolean ret = true;
     	
     	// We take the last element of dominating set to incr it
-    	Vertex current = dominatingSet.remove(dominatingSet.size());
+    	Vertex current = dominatingSet.remove(dominatingSet.size()-1);
     	int indexCurrInDef = g.getDefendersVertices().indexOf(current);
     	
     	// if next index is out of range
@@ -108,7 +108,7 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     	return ret;
     }
 
-    private void getJSONInstanceOrDie()
+    protected void getJSONInstanceOrDie()
     {
         try {
             input = InputJSON.getInstance();
@@ -125,7 +125,7 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     }
 
 
-    private void addAllVerticesToVertexSet(Graph<Vertex, Edge> g)
+    protected void addAllVerticesToVertexSet(Graph<Vertex, Edge> g)
     {
         verticesSet.addAll(g.getDefendersVertices());
     }
