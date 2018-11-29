@@ -42,7 +42,7 @@ public class BasicGraphBuilder {
 		double xRunner = inputValues.getFieldLimits().get(0).getX();
 		double xBorder = inputValues.getFieldLimits().get(0).getY();
 
-		double yRunner = inputValues.getFieldLimits().get(1).getX();
+		double yRunner;
 		double yBorder = inputValues.getFieldLimits().get(1).getY();
 
 		for (; xRunner < xBorder; xRunner += inputValues.getPosStep()) {
@@ -61,7 +61,6 @@ public class BasicGraphBuilder {
 			Vertex v = new Vertex(opponentPos);
 			if (defendersVertexSet.contains(v))
 				defendersVertexSet.remove(v);
-			//v.setOpponent();
 			v.setType(VertexType.OPPONENT);
 			opponentsVertexSet.add(v);
 		}
@@ -72,9 +71,11 @@ public class BasicGraphBuilder {
 		setOpponentsDefendersEdges();
 		// Delete no blocking defenders
 		for (Vertex v : new Vector<Vertex>(defendersVertexSet)) {
-			if (v.getDegree() == 0)
-				defendersVertexSet.remove(v);
-		}
+            if (v.getDegree() == 0) {
+                defendersVertexSet.remove(v);
+                graph.removeVertex(v);
+            }
+        }
 		// Create edge between defenders
 		setDefendersClique();
 	}
@@ -115,14 +116,15 @@ public class BasicGraphBuilder {
 						.getX(), g.getGoalLimits().get(0).getY());
 				Point.Double gp2 = new Point.Double(g.getGoalLimits().get(1)
 						.getX(), g.getGoalLimits().get(1).getY());
-				Point.Double crossLine = Geometry.segmentLintIntersection(gp1,
+				Point.Double crossLine = Geometry.segmentLinetIntersection(gp1,
 						gp2, new Point2D.Double(x, y), opponent.location);
 				if (crossLine == null)
 					continue;
-				if (Geometry.circleLineIntersection(opponent.location,
+                if (Geometry.circleLineIntersection(opponent.location,
 						crossLine, defender.location,
 						inputValues.getRobotRadius()) != null)
-					return true;
+                    return true;
+
 			}
 
 			angle += inputValues.getThetaStep();

@@ -7,7 +7,7 @@ import graphManagement.Vertex;
 
 import java.util.Vector;
 
-public class ExactDominantSetSolver implements DominatingSetSolver{
+public class ExactDominantSetSolver implements DominatingSetSolverInterface{
 
     public Vector<Vertex> dominatingSet = new Vector<>();
     private Graph<Vertex, Edge> g;
@@ -69,7 +69,7 @@ public class ExactDominantSetSolver implements DominatingSetSolver{
 		}
 
 		for (Vertex v : verticesSet) {
-			if (!currentSet.contains(v)) {
+			if (!currentSet.contains(v) && !currentlyDominated.contains(v)) {
 				currentSet.add(v);
 				if (hasDominatingSetRecursive(size - 1, currentSet))
 					return true;
