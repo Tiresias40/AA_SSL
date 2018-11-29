@@ -81,7 +81,7 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     	boolean ret = true;
     	
     	// We take the last element of dominating set to incr it
-    	Vertex current = dominatingSet.remove(dominatingSet.size()-1);
+    	Vertex current = dominatingSet.remove(dominatingSet.size() - 1);
     	int indexCurrInDef = g.getDefendersVertices().indexOf(current);
     	
     	// if next index is out of range

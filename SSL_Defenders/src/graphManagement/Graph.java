@@ -11,8 +11,8 @@ public class Graph<V, E> extends SimpleGraph<Object, Object> {
 
 	public Graph(Class edgeClass) {
 		super(edgeClass);
-		opponentsVertices = new Vector<>();
-		defendersVertices = new Vector<>();
+		opponentsVertices = new Vector<Vertex>();
+		defendersVertices = new Vector<Vertex>();
 	}
 
 	public boolean addVertex(Object v) {
