@@ -11,15 +11,18 @@ import graphManagement.GraphBuilder.BasicGraphBuilder;
 public class Main {
     public static void main(String args[])
     {
+    	//mode = (0 = brute-force algorithm/ 1 = greedy algorithm)
+    	int problemType = -1;
+    	//try to find vertex cover with k number of vertex
+        int k = -1;
+
     	//Reading data from problem jsonfile
         InputJSON input = InputJSON.getInstance("../data_json/problem/basic_problem_1.json");
-        int problemSize = 1;
-        if(args.length > 1)
-            problemSize = Integer.parseInt(args[0]);
+        problemType = Integer.parseInt(args[0]);
+        k = Integer.parseInt(args[1]);
 
-
-        //Create graph with the json data and mode (0 = brute-force algorithm/ 1 = greedy algorithm)
-        Graph<Vertex, Edge> g = BasicGraphBuilder.buildGraph(input, problemSize);
+        //Create graph with the json data and algorithm
+        Graph<Vertex, Edge> g = BasicGraphBuilder.buildGraph(input, problemType);
 
         //Initialize dominant solver
 
@@ -27,8 +30,8 @@ public class Main {
         System.out.println("Graph created");
         //check if graph contains dominantSet
 
+        boolean result = dss.hasDominatingSet(k);
         double time = System.currentTimeMillis();
-        boolean result = dss.hasDominatingSet(3);
         if(!result)
             System.out.println("No solution find for this position step");
         else
