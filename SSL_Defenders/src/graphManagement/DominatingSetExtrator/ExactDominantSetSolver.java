@@ -28,13 +28,18 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     public boolean hasDominatingSet(int maxSize) {
     	boolean ret = false;
     	boolean found = false;
-    	
+    	Vector<Vertex> tmpDominatingSet = new Vector<>();
+    	    	
     	while (maxSize > 0) {
     		ret = hasDominatingSetRecursive(maxSize--);
-    		if(ret == true)
+    		if(ret == true) {
     			found = ret;
-    		if (ret == false)
+    			tmpDominatingSet = (Vector<Vertex>) dominatingSet.clone();
+    		}
+    		if (ret == false) {
+    			dominatingSet = (Vector<Vertex>) tmpDominatingSet.clone();
     			return found;
+    		}
     	}
     	
     	return found;
@@ -49,9 +54,12 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     	}
     	
     	// Init dominating set with 3 first vertices
+    	dominatingSet.clear();
     	for(int i = 0 ; i < maxSize ; i++) {
 			dominatingSet.add(g.getDefendersVertices().get(i));
 		}
+
+		System.out.println(dominatingSetToString());
     	
     	boolean goodCombination = false;
     	// runs until all combinations have been tested or a good one has been found
@@ -72,8 +80,9 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     			return true;
     		}
     		
-    		if(!calculateDominatingSet())
+    		if(!calculateDominatingSet()) {
     			return false;
+    		}
     	}
     }
     
@@ -85,20 +94,22 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     	int indexCurrInDef = g.getDefendersVertices().indexOf(current);
     	
     	// if next index is out of range
-    	if(indexCurrInDef + 1 > g.getDefendersVertices().size()) {
+    	if(indexCurrInDef + 1 >= g.getDefendersVertices().size()) {
     		// if the set is empty, it means all combination have been tested
     		if(dominatingSet.isEmpty())
     			ret = false;
     		// We take the next element and test it
-    		ret = calculateDominatingSet();
-    		// if the last element of dominating set is equal to the one we were processing, it means we need to go higher in the combination to incr
-    		if(g.getDefendersVertices().get(indexCurrInDef).equals(dominatingSet.lastElement())) 
+    		else {
     			ret = calculateDominatingSet();
-    		// if the element we were processing is bigger than the last of dominating set
-    		// we take the one just after the value of dominating set (we incr only by one)
-    		int indexLastOfDSInDef = g.getDefendersVertices().indexOf(dominatingSet.lastElement());
-    		if(indexCurrInDef > indexLastOfDSInDef + 1)
-    			current = g.getDefendersVertices().get(indexLastOfDSInDef + 1);
+	    		// if the last element of dominating set is equal to the one we were processing, it means we need to go higher in the combination to incr
+	    		if(g.getDefendersVertices().get(indexCurrInDef).equals(dominatingSet.lastElement())) 
+	    			ret = calculateDominatingSet();
+	    		// if the element we were processing is bigger than the last of dominating set
+	    		// we take the one just after the value of dominating set (we incr only by one)
+	    		int indexLastOfDSInDef = g.getDefendersVertices().indexOf(dominatingSet.lastElement());
+	    		if(indexCurrInDef > indexLastOfDSInDef + 1)
+	    			current = g.getDefendersVertices().get(indexLastOfDSInDef + 1);
+    		}
     		dominatingSet.add(current);
     	}
     	// if all goes well, simple incr
@@ -114,8 +125,7 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
         try {
             input = InputJSON.getInstance();
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
         }
@@ -126,8 +136,16 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     }
 
 
-    protected void addAllVerticesToVertexSet(Graph<Vertex, Edge> g)
-    {
+    protected void addAllVerticesToVertexSet(Graph<Vertex, Edge> g) {
         verticesSet.addAll(g.getDefendersVertices());
+    }
+    
+    private String dominatingSetToString() {
+    	StringBuffer strBuffer = new StringBuffer("Dominating Set : \n");
+    	for(Vertex v : dominatingSet) {
+    		strBuffer.append(v.toString() + "\n");
+    	}
+    	strBuffer.append("\n\n");
+    	return strBuffer.toString();
     }
 }

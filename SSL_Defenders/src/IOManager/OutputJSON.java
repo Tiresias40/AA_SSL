@@ -12,7 +12,7 @@ public class OutputJSON {
     public static void writeToJSON(DominatingSetSolverInterface solution)
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("{\n\t\"defenders\" : [");
+        sb.append("{\n\t\"defenders\" : [\n");
 
         Vector<Vertex> vertices = solution.getDominatingSet();
         boolean first = true;
