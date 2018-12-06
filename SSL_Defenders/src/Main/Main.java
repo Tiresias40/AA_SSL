@@ -12,7 +12,7 @@ public class Main {
     public static void main(String args[])
     {
     	//Reading data from problem jsonfile
-        InputJSON input = InputJSON.getInstance("../data_json/problem/basic_problem_2.json");
+        InputJSON input = InputJSON.getInstance("../data_json/problem/basic_problem_1.json");
         int problemSize = 1;
         if(args.length > 1)
             problemSize = Integer.parseInt(args[0]);
@@ -27,8 +27,18 @@ public class Main {
         System.out.println("Graph created");
         //check if graph contains dominantSet
 
+        double time = System.currentTimeMillis();
         boolean result = dss.hasDominatingSet(3);
-        System.out.println(result);
+        if(!result)
+            System.out.println("No solution find for this position step");
+        else
+        {
+            System.out.print("A solution was found ");
+            System.out.print("in : ");
+            System.out.print(System.currentTimeMillis() - time);
+            System.out.println("ms");
+        }
+
     	//Write in out.json file position of defenders of dominantSet
         if(result)
         	OutputJSON.writeToJSON(dss);

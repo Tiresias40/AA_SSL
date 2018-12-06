@@ -81,7 +81,7 @@ public class Vertex {
 
 	public boolean hasSameLocation(Vertex other)
 	{
-		double dist = Math.abs(location.getX()-other.location.getX()) + Math.abs(location.getY()-other.location.getY());
+		double dist = Math.pow(location.getX()-other.location.getX(), 2) + Math.pow(location.getY()-other.location.getY(),2);
 		dist = Math.sqrt(dist);
 		double minDist = InputJSON.getInstance().getRobotRadius()*2;
 		return dist < minDist;

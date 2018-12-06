@@ -142,11 +142,11 @@ public class BasicGraphBuilder {
 	public static boolean allIntersected(Vector<Vertex> defenders)
     {
         //to check we didn't just continued on every single point
-        boolean wentThrough = false;
-		double angle = 0;
-        double PI_2 = Math.PI * 2;
+		double angle;
+        final double PI_2 = Math.PI * 2;
         for(Vertex opponent : graph.getOpponentVertices())
         {
+            angle = 0;
             while (angle < PI_2) {
                 double x = opponent.location.getX() + Math.sin(angle);
                 double y = opponent.location.getY() + Math.cos(angle);
@@ -163,19 +163,20 @@ public class BasicGraphBuilder {
                     boolean tmpValue = false;
                     for(Vertex defender : defenders)
                     {
-                        tmpValue = tmpValue || (Geometry.circleLineIntersection(opponent.location,
-                                crossLine, defender.location, inputValues.getRobotRadius()) != null);
+                        if(Geometry.circleLineIntersection(opponent.location,
+                                crossLine, defender.location, inputValues.getRobotRadius()) != null)
+                            tmpValue = true;
+
 
                     }
 
                     if(!tmpValue)
                     	return false;
 
-                    wentThrough = true;
                 }
                 angle += inputValues.getThetaStep();
             }
         }
-        return wentThrough;
+        return true;
     }
 }

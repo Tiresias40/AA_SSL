@@ -52,6 +52,9 @@ public class Geometry {
 
     public static Point.Double circleLineIntersection(Point.Double pointA, Point.Double pointB, Point.Double center, double radius)
     {
+        if(dist(pointA, center) + dist(center, pointB) - dist(pointA, pointB) > 0.01)
+            return null;
+
         double baX = pointB.x - pointA.x;
         double baY = pointB.y - pointA.y;
         double caX = center.x - pointA.x;
@@ -73,7 +76,15 @@ public class Geometry {
         double abScalingFactor1 = -pBy2 + tmpSqrt;
 
         Point.Double p1 = new Point.Double(pointA.getX() - baX * abScalingFactor1, pointA.getY() - baY * abScalingFactor1);
+
         return p1;
 
+    }
+
+    private static double dist(Point.Double p1, Point.Double p2)
+    {
+        double dist = (p1.getX()-p2.getX())*(p1.getX()-p2.getX());
+        dist += (p1.getY()-p2.getY())*(p1.getY()-p2.getY());
+        return Math.sqrt(dist);
     }
 }
