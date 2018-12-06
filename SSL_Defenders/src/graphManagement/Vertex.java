@@ -1,5 +1,7 @@
 package graphManagement;
 
+import IOManager.InputJSON;
+
 import java.awt.geom.Point2D;
 
 public class Vertex {
@@ -79,7 +81,10 @@ public class Vertex {
 
 	public boolean hasSameLocation(Vertex other)
 	{
-		return (other.location.getX() == location.getX() && other.location.getY() == location.getY());
+		double dist = Math.abs(location.getX()-other.location.getX()) + Math.abs(location.getY()-other.location.getY());
+		dist = Math.sqrt(dist);
+		double minDist = InputJSON.getInstance().getRobotRadius()*2;
+		return dist < minDist;
 	}
 
 }

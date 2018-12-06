@@ -48,15 +48,15 @@ public class BasicGraphBuilder {
 		double yBorder = inputValues.getFieldLimits().get(1).getY();
 
 		for (; xRunner < xBorder; xRunner += inputValues.getPosStep()) {
-			xRunner = Math.floor(xRunner * 10) / 10;
+			xRunner = Math.floor(xRunner * 100) / 100;
 
 			for (yRunner = inputValues.getFieldLimits().get(1).getX(); yRunner < yBorder; yRunner += inputValues
 					.getPosStep()) {
-				yRunner = Math.floor(yRunner * 10) / 10;
+				yRunner = Math.floor(yRunner * 100) / 100;
 				Vertex v = new Vertex(xRunner, yRunner);
 				boolean isCandidate = false;
 				for(Vertex opponent : opponentsVertexSet){
-				    if(!v.hasSameLocation(opponent) || intersect(opponent, v)) {
+				    if(!v.hasSameLocation(opponent) && intersect(opponent, v)) {
                         isCandidate = true;
                         break;
                     }
@@ -141,8 +141,9 @@ public class BasicGraphBuilder {
 
 	public static boolean allIntersected(Vector<Vertex> defenders)
     {
-        boolean returnValue = true;
-        double angle = 0;
+        //to check we didn't just continued on every single point
+        boolean wentThrough = false;
+		double angle = 0;
         double PI_2 = Math.PI * 2;
         for(Vertex opponent : graph.getOpponentVertices())
         {
@@ -162,19 +163,19 @@ public class BasicGraphBuilder {
                     boolean tmpValue = false;
                     for(Vertex defender : defenders)
                     {
-                        tmpValue |= (Geometry.circleLineIntersection(opponent.location,
-                                crossLine, defender.location,
-                                inputValues.getRobotRadius()) != null);
+                        tmpValue = tmpValue || (Geometry.circleLineIntersection(opponent.location,
+                                crossLine, defender.location, inputValues.getRobotRadius()) != null);
 
                     }
 
-                    returnValue &= tmpValue;
+                    if(!tmpValue)
+                    	return false;
 
+                    wentThrough = true;
                 }
-
                 angle += inputValues.getThetaStep();
             }
         }
-        return returnValue;
+        return wentThrough;
     }
 }
