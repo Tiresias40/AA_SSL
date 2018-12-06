@@ -15,6 +15,7 @@ public class RecursiveDominantSetSolver extends ExactDominantSetSolver {
     public boolean hasDominatingSet(int maxSize)
     {
         getJSONInstanceOrDie();
+        System.out.println("Beginning recursive solving");
 
 
         Vector<Vertex> currentSet = new Vector<>();
@@ -53,26 +54,13 @@ public class RecursiveDominantSetSolver extends ExactDominantSetSolver {
             return true;
         }
 
+
         for (Vertex v : verticesSet) {
-            if (!currentSet.contains(v) && !currentlyDominated.contains(v)) {
                 currentSet.add(v);
                 if (hasDominatingSetRecursive(size - 1, currentSet))
                     return true;
                 currentSet.remove(v);
-            }
-        }
 
-        return false;
-    }
-
-    protected boolean hasDominatingSetRecursiveV2(int size,Vector<Vertex> currentSet) {
-        if (size <= 0)
-            return false;
-
-        for(Vertex v : verticesSet)
-        {
-            if(currentSet.contains(v))
-                continue;
         }
 
         return false;
