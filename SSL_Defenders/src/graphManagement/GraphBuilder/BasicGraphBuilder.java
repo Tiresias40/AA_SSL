@@ -139,8 +139,7 @@ public class BasicGraphBuilder {
 		return false;
 	}
 
-	public static boolean allIntersected(Vector<Vertex> defenders)
-    {
+	public static boolean allIntersected(Vector<Vertex> defenders) {
         //to check we didn't just continued on every single point
         boolean wentThrough = false;
 		double angle = 0;

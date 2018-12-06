@@ -29,7 +29,7 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     	boolean ret = false;
     	boolean found = false;
     	Vector<Vertex> tmpDominatingSet = new Vector<>();
-    	    	
+    	
     	while (maxSize > 0) {
     		ret = hasDominatingSetRecursive(maxSize--);
     		if(ret == true) {
@@ -58,12 +58,10 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
     	for(int i = 0 ; i < maxSize ; i++) {
 			dominatingSet.add(g.getDefendersVertices().get(i));
 		}
-
-		System.out.println(dominatingSetToString());
     	
     	boolean goodCombination = false;
     	// runs until all combinations have been tested or a good one has been found
-    	while(true) {    		
+    	while(true) {
     		for(Edge e : opponentDefendersEdgesSet) {
     			goodCombination = false;
     			for (Vertex v : dominatingSet) {
@@ -140,10 +138,19 @@ public class ExactDominantSetSolver implements DominatingSetSolverInterface{
         verticesSet.addAll(g.getDefendersVertices());
     }
     
-    private String dominatingSetToString() {
-    	StringBuffer strBuffer = new StringBuffer("Dominating Set : \n");
-    	for(Vertex v : dominatingSet) {
+    private String verticesSet(Vector<Vertex> verticesSet) {
+    	StringBuffer strBuffer = new StringBuffer("Vertices Set : \n");
+    	for(Vertex v : verticesSet) {
     		strBuffer.append(v.toString() + "\n");
+    	}
+    	strBuffer.append("\n\n");
+    	return strBuffer.toString();
+    }
+    
+    private String edgesSetToString(Vector<Edge> edgesSet) {
+    	StringBuffer strBuffer = new StringBuffer("Edges Set : \n");
+    	for(Edge e : edgesSet) {
+    		strBuffer.append(e.toString() + "\n");
     	}
     	strBuffer.append("\n\n");
     	return strBuffer.toString();
