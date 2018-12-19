@@ -10,6 +10,8 @@ import graphManagement.VertexType;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class BasicGraphBuilder {
@@ -177,5 +179,47 @@ public class BasicGraphBuilder {
             }
         }
         return true;
+    }
+
+	public static HashMap<Vertex, HashMap<Double, Boolean>> intersectCount(Vertex opponent, Vertex defender) {
+        double angle = 0;
+        double PI_2 = Math.PI * 2;
+        HashMap<Vertex, HashMap<Double, Boolean>> intersections = new HashMap<>();
+
+        while (angle < PI_2) {
+            double x = opponent.location.getX() + Math.sin(angle);
+            double y = opponent.location.getY() + Math.cos(angle);
+
+            for (Goal g : inputValues.getGoals()) {
+                Point.Double gp1 = new Point.Double(g.getGoalLimits().get(0)
+                        .getX(), g.getGoalLimits().get(0).getY());
+                Point.Double gp2 = new Point.Double(g.getGoalLimits().get(1)
+                        .getX(), g.getGoalLimits().get(1).getY());
+                Point.Double crossLine = Geometry.segmentLinetIntersection(gp1,
+                        gp2, new Point2D.Double(x, y), opponent.location);
+                if (crossLine == null)
+                    continue;
+                if (Geometry.circleLineIntersection(opponent.location,
+                        crossLine, defender.location,
+                        inputValues.getRobotRadius()) != null)
+                {
+                    if(!intersections.containsKey(opponent))
+                        intersections.put(opponent, new HashMap<>());
+                    intersections.get(opponent).put(angle, true);
+                }
+
+            }
+
+            angle += inputValues.getThetaStep();
+        }
+        return intersections;
+	}
+
+    public static HashMap<Vertex, HashMap<Double, Boolean>> intersectCount(Vector<Vertex> opponents, Vertex defender)
+    {
+        HashMap<Vertex, HashMap<Double, Boolean>> intersections = new HashMap<>();
+        for(Vertex opponent : opponents)
+            intersections.putAll(intersectCount(opponent, defender));
+        return intersections;
     }
 }

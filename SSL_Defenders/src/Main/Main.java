@@ -5,6 +5,7 @@ import IOManager.OutputJSON;
 import graphManagement.*;
 import graphManagement.DominatingSetExtrator.DominatingSetSolverInterface;
 import graphManagement.DominatingSetExtrator.ExactDominantSetSolver;
+import graphManagement.DominatingSetExtrator.GreedyDominantSetSolver;
 import graphManagement.DominatingSetExtrator.RecursiveDominantSetSolver;
 import graphManagement.GraphBuilder.BasicGraphBuilder;
 
@@ -31,11 +32,14 @@ public class Main {
         Graph<Vertex, Edge> g = BasicGraphBuilder.buildGraph(input, problemType);
 
         //Initialize dominant solver
+        method = 4;
         DominatingSetSolverInterface dss;
         if(method == 0)
         	dss = new ExactDominantSetSolver(g);
-        else
+        else if(method == 1)
         	dss = new RecursiveDominantSetSolver(g);
+        else
+            dss = new GreedyDominantSetSolver(g);
 
         //check if graph contains dominatingSet
         boolean result = dss.hasDominatingSet(k);
