@@ -32,7 +32,6 @@ public class Main {
         Graph<Vertex, Edge> g = BasicGraphBuilder.buildGraph(input, problemType);
 
         //Initialize dominant solver
-        method = 4;
         DominatingSetSolverInterface dss;
         if(method == 0)
         	dss = new ExactDominantSetSolver(g);

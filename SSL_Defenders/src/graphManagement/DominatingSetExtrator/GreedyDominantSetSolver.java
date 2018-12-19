@@ -37,13 +37,12 @@ public class GreedyDominantSetSolver extends ExactDominantSetSolver {
                 tmp = BasicGraphBuilder.intersectCount(g.getOpponentVertices(), n);
                 tmpInt = bestNumberOfEntries;
                 checkNumberOfIntersections(tmp);
-                if(tmpInt > bestNumberOfEntries)
+                if(tmpInt < bestNumberOfEntries)
                 {
-                    System.out.println("Wehs");
                     bestYet = n;
                 }
             }
-
+            System.out.println(bestYet);
             if(bestYet != null)
                 takenVertices.add(bestYet);
             if(BasicGraphBuilder.allIntersected(takenVertices))
