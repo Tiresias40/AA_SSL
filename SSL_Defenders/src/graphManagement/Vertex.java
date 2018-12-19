@@ -87,4 +87,12 @@ public class Vertex {
 		return dist < minDist;
 	}
 
+	public boolean isAwayEnough(Vertex other, double minDistance)
+	{
+		double dist = Math.pow(location.getX()-other.location.getX(), 2) + Math.pow(location.getY()-other.location.getY(),2);
+		dist = Math.sqrt(dist);
+		minDistance += InputJSON.getInstance().getRobotRadius()*2;
+		return dist > minDistance;
+	}
+
 }

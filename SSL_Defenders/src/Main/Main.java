@@ -23,9 +23,9 @@ public class Main {
         int k = 3;
     	if(args.length > 2 && Integer.parseInt(args[2]) > 0)
     		k = Integer.parseInt(args[2]);
-    	
+
     	//Reading data from problem jsonfile
-        InputJSON input = InputJSON.getInstance("../data_json/problem/basic_problem_2.json");
+        InputJSON input = InputJSON.getInstance("data_json/problem/basic_problem_2.json");
 
         //Create graph with the json data and mode (0 = brute-force algorithm/ 1 = greedy algorithm)
         Graph<Vertex, Edge> g = BasicGraphBuilder.buildGraph(input, problemType);
@@ -36,7 +36,7 @@ public class Main {
         	dss = new ExactDominantSetSolver(g);
         else
         	dss = new RecursiveDominantSetSolver(g);
-        
+
         //check if graph contains dominatingSet
         boolean result = dss.hasDominatingSet(k);
         double time = System.currentTimeMillis();

@@ -1,5 +1,6 @@
 package graphManagement.DominatingSetExtrator;
 
+import IOManager.InputJSON;
 import graphManagement.Edge;
 import graphManagement.Graph;
 import graphManagement.GraphBuilder.BasicGraphBuilder;
@@ -24,7 +25,7 @@ public class RecursiveDominantSetSolver extends ExactDominantSetSolver {
 
 
     protected boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet) {
-        if (size <= 0)
+        if (size < 0)
             return false;
 
         Vector<Vertex> currentlyDominated = new Vector<>();
@@ -56,11 +57,20 @@ public class RecursiveDominantSetSolver extends ExactDominantSetSolver {
 
 
         for (Vertex v : verticesSet) {
-                currentSet.add(v);
-                if (hasDominatingSetRecursive(size - 1, currentSet))
-                    return true;
-                currentSet.remove(v);
-
+            if(!currentSet.contains(v)){
+                boolean awayEnough = true;
+                if(InputJSON.getInstance().getMinDist() > 0)
+                    for(Vertex v2 : currentSet)
+                        if(!v.isAwayEnough(v2, InputJSON.getInstance().getMinDist()))
+                            awayEnough = false;
+                if(awayEnough)
+                {
+                    currentSet.add(v);
+                    if (hasDominatingSetRecursive(size - 1, currentSet))
+                        return true;
+                    currentSet.remove(v);
+                }
+            }
         }
 
         return false;

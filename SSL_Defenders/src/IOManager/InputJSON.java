@@ -17,6 +17,7 @@ public class InputJSON {
 	private double robotRadius;
 	private double thetaStep;
 	private double posStep;
+	private double minDist;
 
 	public static InputJSON getInstance(String filePath) {
 		if (singleton == null)
@@ -74,6 +75,10 @@ public class InputJSON {
 		robotRadius = jObj.getDouble("robot_radius");
 		thetaStep = jObj.getDouble("theta_step");
 		posStep = jObj.getDouble("pos_step");
+
+		minDist = -1;
+		if(jObj.has("min_dist"))
+			minDist = jObj.getDouble("min_dist");
 	}
 
 	private JSONObject readJsonFromFile(String filePath) {
@@ -147,6 +152,8 @@ public class InputJSON {
 	public void setPosStep(double posStep) {
 		this.posStep = posStep;
 	}
+
+	public double getMinDist() {return minDist;}
 
 	public String toString()
     {
