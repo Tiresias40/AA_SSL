@@ -207,7 +207,7 @@ public class BasicGraphBuilder {
                         inputValues.getRobotRadius()) != null)
                 {
                     if(!intersections.containsKey(opponent))
-                        intersections.put(opponent, new HashMap<>());
+                        intersections.put(opponent, new HashMap<Double, Boolean>());
                     intersections.get(opponent).put(angle, true);
                 }
 

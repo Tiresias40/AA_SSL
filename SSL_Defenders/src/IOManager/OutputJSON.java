@@ -30,7 +30,7 @@ public class OutputJSON {
         sb.append("\n\t]\n}");
 
         try{
-            BufferedWriter writer = new BufferedWriter(new FileWriter("out.json"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("../data_json/solution/out.json"));
             writer.write(sb.toString());
             writer.close();
         }
