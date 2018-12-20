@@ -17,8 +17,7 @@ public class RecursiveDominantSetSolver extends ExactDominantSetSolver {
     int bestSize;
     int maxSize;
 
-    public boolean hasDominatingSet(int maxSize)
-    {
+    public boolean hasDominatingSet(int maxSize) {
         getJSONInstanceOrDie();
         System.out.println("Beginning recursive solving");
         bestSet = new Vector<>();
@@ -26,34 +25,27 @@ public class RecursiveDominantSetSolver extends ExactDominantSetSolver {
         bestSize = 0;
         this.maxSize = maxSize;
         Vector<Vertex> currentSet = new Vector<>();
-        if(hasDominatingSetRecursive(maxSize, currentSet))
-        {
-            dominatingSet.addAll(bestSet);
-            System.out.println(bestSet);
-            return true;
-        }
-        return false;
-/*
-        MaxSize = maxSize;
-        for(int i = 0; i <= maxSize; i++)
-            dominatingSet.add(new Vertex(0, 0));
-
-
-        Vector<Vertex> currentSet = new Vector<>();
-        if(input.hasGoalKeeper())
-        {
+        if (input.hasGoalKeeper()) {
             for (Vertex v : verticesSet) {
-                if(v.isGoalKeeper()){
-                        currentSet.add(v);
-                        if (hasDominatingSetRecursive(maxSize - 1, currentSet))
-                            return true;
-                        currentSet.remove(v);
+                if (v.isGoalKeeper()) {
+                    currentSet.add(v);
+                    if (hasDominatingSetRecursive(maxSize - 1, currentSet)) {
+                        dominatingSet.addAll(bestSet);
+                        System.out.println(bestSet);
+                        return true;
+                    }
+                    currentSet.remove(v);
                 }
             }
+        } else {
+            if (hasDominatingSetRecursive(maxSize, currentSet)) {
+                dominatingSet.addAll(bestSet);
+                System.out.println(bestSet);
+                return true;
+            }
         }
-        else
-            return this.hasDominatingSetRecursive(maxSize, currentSet);
-        return false;*/
+
+        return false;
     }
 
 
