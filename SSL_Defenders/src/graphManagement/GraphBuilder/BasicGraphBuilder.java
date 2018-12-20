@@ -16,11 +16,13 @@ import java.util.Vector;
 
 public class BasicGraphBuilder {
 
-	protected static Graph<Vertex, Edge> graph = new Graph<Vertex, Edge>(Edge.class);
+	private static Graph<Vertex, Edge> graph = new Graph<Vertex, Edge>(Edge.class);
 
 	private static Vector<Vertex> defendersVertexSet = new Vector<Vertex>();
 	private static Vector<Vertex> opponentsVertexSet = new Vector<Vertex>();
 	private static InputJSON inputValues;
+
+	private static int i = 0;
 
 	/* Initialize graph with json data
 	 * input : json file 
@@ -50,11 +52,8 @@ public class BasicGraphBuilder {
 		double yBorder = inputValues.getFieldLimits().get(1).getY();
 
 		for (; xRunner < xBorder; xRunner += inputValues.getPosStep()) {
-			xRunner = Math.floor(xRunner * 100) / 100;
-
 			for (yRunner = inputValues.getFieldLimits().get(1).getX(); yRunner < yBorder; yRunner += inputValues
 					.getPosStep()) {
-				yRunner = Math.floor(yRunner * 100) / 100;
 				Vertex v = new Vertex(xRunner, yRunner);
 				boolean isCandidate = false;
 				for(Vertex opponent : opponentsVertexSet){
@@ -63,8 +62,12 @@ public class BasicGraphBuilder {
                         break;
                     }
                 }
-                if(isCandidate)
-				    defendersVertexSet.add(v);
+                if(isCandidate){
+                    if(inputValues.hasGoalKeeper() && isInGoalKeeperArea(v))
+                        v.setType(VertexType.GOAL_KEEPER);
+                    defendersVertexSet.add(v);
+                }
+
 			}
 		}
 	}
@@ -113,7 +116,7 @@ public class BasicGraphBuilder {
 				}
 	}
 
-	protected static boolean intersect(Vertex opponent, Vertex defender) {
+	private static boolean intersect(Vertex opponent, Vertex defender) {
 		double angle = 0;
 		double PI_2 = Math.PI * 2;
 		while (angle < PI_2) {
@@ -221,5 +224,14 @@ public class BasicGraphBuilder {
         for(Vertex opponent : opponents)
             intersections.putAll(intersectCount(opponent, defender));
         return intersections;
+    }
+
+    private static boolean isInGoalKeeperArea(Vertex v)
+    {
+        return     v.location.getX() >= inputValues.getGoalkeeper_area().get(0).getX()
+                && v.location.getX() <= inputValues.getGoalkeeper_area().get(0).getY()
+                && v.location.getY() >= inputValues.getGoalkeeper_area().get(1).getX()
+                && v.location.getY() <= inputValues.getGoalkeeper_area().get(1).getY();
+
     }
 }

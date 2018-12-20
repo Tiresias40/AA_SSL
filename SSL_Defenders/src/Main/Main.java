@@ -31,6 +31,7 @@ public class Main {
         //Create graph with the json data and mode (0 = brute-force algorithm/ 1 = greedy algorithm)
         Graph<Vertex, Edge> g = BasicGraphBuilder.buildGraph(input, problemType);
 
+
         //Initialize dominant solver
         DominatingSetSolverInterface dss;
         if(method == 0)

@@ -12,19 +12,93 @@ public class RecursiveDominantSetSolver extends ExactDominantSetSolver {
     public RecursiveDominantSetSolver(Graph<Vertex, Edge> g) {
         super(g);
     }
+    private int MaxSize;
+    Vector<Vertex> bestSet;
+    int bestSize;
+    int maxSize;
 
     public boolean hasDominatingSet(int maxSize)
     {
         getJSONInstanceOrDie();
         System.out.println("Beginning recursive solving");
+        bestSet = new Vector<>();
+
+        bestSize = 0;
+        this.maxSize = maxSize;
+        Vector<Vertex> currentSet = new Vector<>();
+        if(hasDominatingSetRecursive(maxSize, currentSet))
+        {
+            dominatingSet.addAll(bestSet);
+            System.out.println(bestSet);
+            return true;
+        }
+        return false;
+/*
+        MaxSize = maxSize;
+        for(int i = 0; i <= maxSize; i++)
+            dominatingSet.add(new Vertex(0, 0));
 
 
         Vector<Vertex> currentSet = new Vector<>();
-        return this.hasDominatingSetRecursive(maxSize, currentSet);
+        if(input.hasGoalKeeper())
+        {
+            for (Vertex v : verticesSet) {
+                if(v.isGoalKeeper()){
+                        currentSet.add(v);
+                        if (hasDominatingSetRecursive(maxSize - 1, currentSet))
+                            return true;
+                        currentSet.remove(v);
+                }
+            }
+        }
+        else
+            return this.hasDominatingSetRecursive(maxSize, currentSet);
+        return false;*/
     }
 
 
-    protected boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet) {
+    private boolean hasDominatingSetRecursive(int size, Vector<Vertex> currentSet)
+    {
+
+        //on a déjà mieux
+        if(size < 0)
+            return false;
+        if(size <= bestSize)
+            return true;
+
+
+        for(Vertex n : verticesSet)
+        {
+            if(currentSet.contains(n))
+                continue;
+            boolean cont = false;
+            double minDist = InputJSON.getInstance().getMinDist();
+
+            for(Vertex v : currentSet)
+                if(!v.isAwayEnough(n, minDist))
+                    cont = true;
+            if(cont)
+                continue;
+            currentSet.add(n);
+            if(BasicGraphBuilder.allIntersected(currentSet))
+            {
+                bestSize = size;
+                bestSet.clear();
+                bestSet.addAll(currentSet);
+            }
+            else
+                hasDominatingSetRecursive(size-1, currentSet);
+            currentSet.remove(n);
+        }
+
+        if(bestSize > 0)
+            return true;
+        return false;
+
+    }
+
+
+    protected boolean hasDominatingSetRecursiveV1(int size, Vector<Vertex> currentSet) {
         if (size < 0)
             return false;
 
@@ -50,19 +124,28 @@ public class RecursiveDominantSetSolver extends ExactDominantSetSolver {
                 currentlyDominated.add(chosen);
         }
 
-        if (currentlyDominated.size() == g.vertexSet().size() && BasicGraphBuilder.allIntersected(currentSet)) {
+        if (BasicGraphBuilder.allIntersected(currentSet) && currentSet.size() < dominatingSet.size()) {
             dominatingSet.addAll(currentSet);
             return true;
         }
 
 
         for (Vertex v : verticesSet) {
+            if(input.hasGoalKeeper())
+                if(v.isGoalKeeper())
+                    continue;
             if(!currentSet.contains(v)){
                 boolean awayEnough = true;
                 if(InputJSON.getInstance().getMinDist() > 0)
+                {
                     for(Vertex v2 : currentSet)
                         if(!v.isAwayEnough(v2, InputJSON.getInstance().getMinDist()))
                             awayEnough = false;
+                    for(Vertex v2 : g.getOpponentVertices())
+                        if(!v.isAwayEnough(v2, InputJSON.getInstance().getMinDist()))
+                            awayEnough = false;
+                }
+
                 if(awayEnough)
                 {
                     currentSet.add(v);

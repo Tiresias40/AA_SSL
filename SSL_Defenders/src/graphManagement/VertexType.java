@@ -1,5 +1,5 @@
 package graphManagement;
 
 public enum VertexType {
-	OPPONENT, DEFENDER;
+	OPPONENT, DEFENDER, GOAL_KEEPER;
 }

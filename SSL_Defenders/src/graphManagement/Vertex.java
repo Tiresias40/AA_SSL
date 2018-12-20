@@ -54,6 +54,8 @@ public class Vertex {
 		return (this.getType() == VertexType.OPPONENT);
 	}
 
+	public boolean isGoalKeeper() {return (this.getType() == VertexType.GOAL_KEEPER); }
+
 	public void setDefender() {
 		type = VertexType.DEFENDER;
 	}

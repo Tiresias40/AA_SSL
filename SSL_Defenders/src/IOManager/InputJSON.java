@@ -13,11 +13,13 @@ public class InputJSON {
 
 	private ArrayList<Point2D.Double> fieldLimits;
 	private ArrayList<Goal> goals;
+    private ArrayList<Point2D.Double> goalkeeper_area;
 	private ArrayList<Point2D.Double> opponents;
 	private double robotRadius;
 	private double thetaStep;
 	private double posStep;
 	private double minDist;
+	private boolean hasGoalKeeper = false;
 
 	public static InputJSON getInstance(String filePath) {
 		if (singleton == null)
@@ -76,9 +78,21 @@ public class InputJSON {
 		thetaStep = jObj.getDouble("theta_step");
 		posStep = jObj.getDouble("pos_step");
 
-		minDist = -1;
+		minDist = 0;
 		if(jObj.has("min_dist"))
 			minDist = jObj.getDouble("min_dist");
+
+		if(jObj.has("goalkeeper_area"))
+        {
+            hasGoalKeeper = true;
+            JSONArray goalKeeperList = jObj.getJSONArray("goalkeeper_area");
+            goalkeeper_area = new ArrayList<Point2D.Double>();
+            JSONArray zone = jObj.getJSONArray("field_limits");
+            for (int i = 0; i < zone.length(); i++) {
+                JSONArray field = zone.getJSONArray(i);
+                goalkeeper_area.add(new Point2D.Double(field.getDouble(0), field.getDouble(1)));
+            }
+        }
 	}
 
 	private JSONObject readJsonFromFile(String filePath) {
@@ -154,6 +168,9 @@ public class InputJSON {
 	}
 
 	public double getMinDist() {return minDist;}
+
+	public ArrayList<Point2D.Double> getGoalkeeper_area() { return goalkeeper_area; }
+	public boolean hasGoalKeeper() { return hasGoalKeeper; }
 
 	public String toString()
     {
