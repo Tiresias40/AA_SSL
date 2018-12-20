@@ -1,5 +1,6 @@
 package graphManagement.DominatingSetExtrator;
 
+import IOManager.InputJSON;
 import graphManagement.Edge;
 import graphManagement.Graph;
 import graphManagement.GraphBuilder.BasicGraphBuilder;
@@ -39,10 +40,15 @@ public class GreedyDominantSetSolver extends ExactDominantSetSolver {
                 checkNumberOfIntersections(tmp);
                 if(tmpInt < bestNumberOfEntries)
                 {
-                    bestYet = n;
+                    boolean awayEnough = true;
+                    if(InputJSON.getInstance().getMinDist() > 0)
+                        for(Vertex v2 : takenVertices)
+                            if(!n.isAwayEnough(v2, InputJSON.getInstance().getMinDist()))
+                                awayEnough = false;
+                    if(awayEnough)
+                        bestYet = n;
                 }
             }
-            System.out.println(bestYet);
             if(bestYet != null)
                 takenVertices.add(bestYet);
             if(BasicGraphBuilder.allIntersected(takenVertices))
