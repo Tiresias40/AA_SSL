@@ -10,6 +10,7 @@ import graphManagement.DominatingSetExtrator.RecursiveDominantSetSolver;
 import graphManagement.GraphBuilder.BasicGraphBuilder;
 
 public class Main {
+	
 	public static void main(String args[]) {
 		// Set timer for program duration
 		double time = System.currentTimeMillis();
