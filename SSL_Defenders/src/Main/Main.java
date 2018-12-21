@@ -56,6 +56,7 @@ public class Main {
 			dss = new RecursiveDominantSetSolver(g);
 		else if (method == 2)
 			dss = new GreedyDominantSetSolver(g);
+		System.out.println("Solving");
 
 		// check if graph contains dominatingSet
 		boolean result = dss.hasDominatingSet(k);
@@ -63,7 +64,7 @@ public class Main {
 			System.out.println("No solution find for this position step");
 		else {
 			System.out.println("A solution was found in : "
-					+ (System.currentTimeMillis() - time) + "ms");
+					+ ((System.currentTimeMillis() - time) / 1000) + " s");
 		}
 
 		// Write in out.json file position of defenders of dominantSet

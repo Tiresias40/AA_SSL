@@ -19,7 +19,6 @@ public class RecursiveDominantSetSolver extends ExactDominantSetSolver {
 
 	public boolean hasDominatingSet(int maxSize) {
 		getJSONInstanceOrDie();
-		System.out.println("Beginning recursive solving");
 		bestSet = new Vector<>();
 
 		bestSize = 0;
