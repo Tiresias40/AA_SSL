@@ -15,16 +15,25 @@ public class Goal {
 		this.direction = direction;
 	}
 
+	/**
+	 * Obtain limits of goal
+	 * 
+	 * @return collection of Point2D.Double represent the goal limits
+	 */
 	public ArrayList<Point2D.Double> getGoalLimits() {
 		return limits;
 	}
 
+	/**
+	 * Obtain direction of goal
+	 * 
+	 * @return Point2D.Double represent direction
+	 */
 	public Point2D.Double getDirection() {
 		return direction;
 	}
 
-	public String toString()
-	{
+	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("limits : ").append(limits).append("\n");

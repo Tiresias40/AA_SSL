@@ -13,7 +13,7 @@ public class InputJSON {
 
 	private ArrayList<Point2D.Double> fieldLimits;
 	private ArrayList<Goal> goals;
-    private ArrayList<Point2D.Double> goalkeeper_area;
+	private ArrayList<Point2D.Double> goalkeeper_area;
 	private ArrayList<Point2D.Double> opponents;
 	private double robotRadius;
 	private double thetaStep;
@@ -48,51 +48,55 @@ public class InputJSON {
 		JSONArray fields = jObj.getJSONArray("field_limits");
 		for (int i = 0; i < fields.length(); i++) {
 			JSONArray field = fields.getJSONArray(i);
-			fieldLimits.add(new Point2D.Double(field.getDouble(0), field.getDouble(1)));
+			fieldLimits.add(new Point2D.Double(field.getDouble(0), field
+					.getDouble(1)));
 		}
 
 		goals = new ArrayList<Goal>();
 		JSONArray listGoals = jObj.getJSONArray("goals");
-		for (int i = 0 ; i < listGoals.length() ; i++) {			
+		for (int i = 0; i < listGoals.length(); i++) {
 			JSONObject currGoal = listGoals.getJSONObject(i);
 
 			ArrayList<Point2D.Double> limits = new ArrayList<Point2D.Double>();
 			JSONArray posts = currGoal.getJSONArray("posts");
-			for (int j = 0 ; j < posts.length() ; j++) {
+			for (int j = 0; j < posts.length(); j++) {
 				JSONArray point = posts.getJSONArray(j);
-				limits.add(new Point2D.Double(point.getDouble(0), point.getDouble(1)));
+				limits.add(new Point2D.Double(point.getDouble(0), point
+						.getDouble(1)));
 			}
-			
+
 			JSONArray direction = currGoal.getJSONArray("direction");
-			goals.add(new Goal(limits, new Point2D.Double(direction.getDouble(0), direction.getDouble(1))));
+			goals.add(new Goal(limits, new Point2D.Double(direction
+					.getDouble(0), direction.getDouble(1))));
 		}
-		
+
 		opponents = new ArrayList<Point2D.Double>();
 		JSONArray totalOpponents = jObj.getJSONArray("opponents");
-		for (int i = 0 ; i < totalOpponents.length() ; i++) {
+		for (int i = 0; i < totalOpponents.length(); i++) {
 			JSONArray opponent = totalOpponents.getJSONArray(i);
-			opponents.add(new Point2D.Double(opponent.getDouble(0), opponent.getDouble(1)));
+			opponents.add(new Point2D.Double(opponent.getDouble(0), opponent
+					.getDouble(1)));
 		}
-		
+
 		robotRadius = jObj.getDouble("robot_radius");
 		thetaStep = jObj.getDouble("theta_step");
 		posStep = jObj.getDouble("pos_step");
 
 		minDist = 0;
-		if(jObj.has("min_dist"))
+		if (jObj.has("min_dist"))
 			minDist = jObj.getDouble("min_dist");
 
-		if(jObj.has("goalkeeper_area"))
-        {
-            hasGoalKeeper = true;
-            JSONArray goalKeeperList = jObj.getJSONArray("goalkeeper_area");
-            goalkeeper_area = new ArrayList<Point2D.Double>();
-            JSONArray zone = jObj.getJSONArray("field_limits");
-            for (int i = 0; i < zone.length(); i++) {
-                JSONArray field = zone.getJSONArray(i);
-                goalkeeper_area.add(new Point2D.Double(field.getDouble(0), field.getDouble(1)));
-            }
-        }
+		if (jObj.has("goalkeeper_area")) {
+			hasGoalKeeper = true;
+			JSONArray goalKeeperList = jObj.getJSONArray("goalkeeper_area");
+			goalkeeper_area = new ArrayList<Point2D.Double>();
+			JSONArray zone = jObj.getJSONArray("field_limits");
+			for (int i = 0; i < zone.length(); i++) {
+				JSONArray field = zone.getJSONArray(i);
+				goalkeeper_area.add(new Point2D.Double(field.getDouble(0),
+						field.getDouble(1)));
+			}
+		}
 	}
 
 	private JSONObject readJsonFromFile(String filePath) {
@@ -167,21 +171,28 @@ public class InputJSON {
 		this.posStep = posStep;
 	}
 
-	public double getMinDist() {return minDist;}
+	public double getMinDist() {
+		return minDist;
+	}
 
-	public ArrayList<Point2D.Double> getGoalkeeper_area() { return goalkeeper_area; }
-	public boolean hasGoalKeeper() { return hasGoalKeeper; }
+	public ArrayList<Point2D.Double> getGoalkeeper_area() {
+		return goalkeeper_area;
+	}
 
-	public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("fields limits : ").append(fieldLimits.toString()).append("\n");
-        sb.append("theta step : ").append(thetaStep).append("\n");
-        sb.append("pos step : ").append(posStep).append("\n");
-        sb.append("radius : ").append(robotRadius).append("\n");
-        sb.append("opponents : ").append(opponents).append("\n");
-        sb.append("goals : ").append(goals).append("\n");
+	public boolean hasGoalKeeper() {
+		return hasGoalKeeper;
+	}
 
-        return sb.toString();
-    }
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("fields limits : ").append(fieldLimits.toString())
+				.append("\n");
+		sb.append("theta step : ").append(thetaStep).append("\n");
+		sb.append("pos step : ").append(posStep).append("\n");
+		sb.append("radius : ").append(robotRadius).append("\n");
+		sb.append("opponents : ").append(opponents).append("\n");
+		sb.append("goals : ").append(goals).append("\n");
+
+		return sb.toString();
+	}
 }

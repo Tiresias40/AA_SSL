@@ -68,7 +68,7 @@ public class GreedyDominantSetSolver extends ExactDominantSetSolver {
         for(Map.Entry i : lastIntersections.entrySet())
         {
             if(!intersectionsAlreadyTaken.containsKey(i.getKey()))
-                intersectionsAlreadyTaken.put((Vertex)i.getKey(), new HashMap<>());
+                intersectionsAlreadyTaken.put((Vertex)i.getKey(), new HashMap<Double, Boolean>());
             for(Map.Entry j : lastIntersections.get(i.getKey()).entrySet())
                 if(!intersectionsAlreadyTaken.get(i.getKey()).containsKey(j.getKey()))
                     numberOfValidEntries ++;

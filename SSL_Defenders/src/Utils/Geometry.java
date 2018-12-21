@@ -10,7 +10,7 @@ public class Geometry {
     {
         return segmentLinetIntersection(new Line2D.Double(segmentP1, segmentP2), new Line2D.Double(lineP1, lineP2));
     }
-
+   
     public static Point.Double segmentLinetIntersection(Line2D segment, Line2D line)
     {
         double x1 = segment.getX1();
@@ -31,24 +31,6 @@ public class Geometry {
             return null;
         return new Point2D.Double(x1+t*(x2-x1), y1+t*(y2-y1));
     }
-
-    /*public static Point.Double circleLineIntersection(Point.Double segStart, Point.Double segEnd, Point.Double circleCenter, double radius)
-    {
-        double norm;
-
-        Point.Double segDir = new Point2D.Double(segEnd.getX()-segStart.getX(), segEnd.getY()-segStart.getY());
-        norm = Math.sqrt(segDir.getX()+segDir.getY());
-        segDir = new Point2D.Double(segDir.getX()/norm, segDir.getY()/norm);
-        Point.Double normal_line_dir = new Point2D.Double(-segDir.getY(), segDir.getX());
-        Point.Double normal_intersection = segmentLinetIntersection(segStart, segEnd, circleCenter, new Point2D.Double(circleCenter.getX()+normal_line_dir.getX(), circleCenter.getY()+normal_line_dir.getY()));
-        if(normal_intersection == null)
-            return null;
-        double dist = Math.sqrt(circleCenter.getX()-normal_intersection.getX()+circleCenter.getY()-normal_intersection.getY());
-        if(dist > radius)
-            return null;
-        double offset_lenght = Math.sqrt(Math.pow(radius, 2) - Math.pow(dist, 2));
-        return new Point2D.Double(normal_intersection.getX()-offset_lenght*segDir.getX(), normal_intersection.getY()-offset_lenght*segDir.getY());
-    }*/
 
     public static Point.Double circleLineIntersection(Point.Double pointA, Point.Double pointB, Point.Double center, double radius)
     {
